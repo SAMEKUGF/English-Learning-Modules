@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Sports Vocabulary & Verbs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0fff0; /* Honeydew */
+            color: #2f4f4f; /* Dark Slate Gray */
+        }
+        .container {
+            max-width: 950px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #008080; /* Teal */
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        h1 { text-align: center; }
+        h2 { border-bottom: 2px solid #afeeee; } /* Pale Turquoise */
+
+        .intro {
+            background-color: #e6f7f7; /* Very Light Teal */
+            border-left: 5px solid #008080;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 5px 5px 0;
+        }
+        .intro h3 { color: #006666; }
+        .intro ul { padding-left: 20px; }
+        .intro code {
+            font-weight: bold;
+            color: #004d4d;
+            background-color: #d9f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .sports-list-section {
+            margin-bottom: 30px;
+        }
+        .sports-columns {
+            columns: 3;
+            -webkit-columns: 3;
+            -moz-columns: 3;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sports-columns li {
+            background-color: #f0fafa;
+            margin-bottom: 8px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            border-left: 3px solid #20b2aa; /* Light Sea Green */
+        }
+
+        .classification-section h3 {
+           text-align: center;
+           margin-bottom: 20px;
+        }
+        .classify-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .classify-table th, .classify-table td {
+            border: 1px solid #b2dfdb; /* Light Teal border */
+            padding: 10px;
+            text-align: center;
+        }
+        .classify-table th {
+            background-color: #4db6ac; /* Medium Teal */
+            color: white;
+        }
+        .classify-table td:first-child {
+            text-align: left;
+            font-weight: bold;
+            background-color: #e0f2f1; /* Very Light Teal */
+             width: 35%;
+        }
+        .classify-table input[type="radio"] {
+            margin: 0 5px 0 15px;
+            cursor: pointer;
+        }
+        .classify-table label { cursor: pointer; }
+        .feedback-cell { font-weight: bold; font-size: 1.1em; }
+        .correct-classify { color: green; }
+        .incorrect-classify { color: red; }
+
+        .check-classify-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #2e8b57; /* Sea Green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .check-classify-btn:hover { background-color: #256d45; }
+
+        .question-block { /* For MCQ section */
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .question-block p.question-text {
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .options button {
+            display: block; width: 100%; padding: 10px 15px; margin-bottom: 10px;
+            background-color: #5f9ea0; /* Cadet Blue */
+            color: white; border: none; border-radius: 4px; cursor: pointer;
+            font-size: 1em; text-align: left; transition: background-color 0.3s ease;
+        }
+         .options button:hover:not(:disabled) { background-color: #4682b4; /* Steel Blue */ }
+         .options button:disabled { cursor: not-allowed; opacity: 0.7; }
+         .options button.correct { background-color: #28a745; color: white; font-weight: bold; }
+         .options button.incorrect { background-color: #dc3545; color: white; }
+         .feedback { margin-top: 10px; padding: 10px; border-radius: 4px; font-weight: bold; }
+         .feedback.correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+         .feedback.incorrect { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+         .hidden { display: none; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sports Vocabulary & Verbs</h1>
+
+        <div class="intro">
+            <h2>Which Verb to Use: PLAY, GO, or DO?</h2>
+            <p>In English, we use different verbs with different sports and activities:</p>
+            <ul>
+                <li>Use <code>PLAY</code> for team sports, ball sports, and competitive games where you play against another person/team (e.g., soccer, tennis, chess).</li>
+                <li>Use <code>GO</code> for activities ending in "-ing" (e.g., swimming, hiking, skiing).</li>
+                <li>Use <code>DO</code> for individual activities, non-team sports, martial arts, and general exercise (e.g., karate, judo, aerobics, archery).</li>
+            </ul>
+        </div>
+
+        <div class="sports-list-section">
+            <h2>Sports Vocabulary</h2>
+            <ul class="sports-columns">
+                <li>aerobics</li> <li>judo</li> <li>swimming</li> <li>running</li>
+                <li>tennis</li> <li>karate</li> <li>wrestling</li> <li>golf</li>
+                <li>gymnastics</li> <li>sailing</li> <li>ice hockey</li> <li>hiking</li>
+                <li>football (soccer)</li> <li>soccer</li> <li>taekwondo</li> <li>rugby</li>
+                <li>basketball</li> <li>boxing</li> <li>archery</li> <li>fencing</li>
+                <li>ice skating</li> <li>baseball</li> <li>snowboarding</li> <li>car racing</li>
+                <li>mountain climbing</li> <li>horseback riding</li> <li>skiing</li>
+                <li>handball</li> <li>volleyball</li> <li>biking/cycling</li> <li>surfing</li>
+                <li>ping pong (table tennis)</li> <li>yoga</li>
+            </ul>
+        </div>
+
+        <div class="classification-section">
+            <h2>Activity: Classify the Sports</h2>
+            <h3>Choose PLAY, GO, or DO for each sport:</h3>
+            <form id="classify-form">
+                <table class="classify-table">
+                    <thead>
+                        <tr>
+                            <th>Sport / Activity</th>
+                            <th>PLAY</th>
+                            <th>GO</th>
+                            <th>DO</th>
+                            <th>Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be dynamically inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </form>
+            <button type="button" class="check-classify-btn" onclick="checkClassification()">Check Classification</button>
+        </div>
+
+         <div class="practice-mcq">
+             <h2>Practice MCQs</h2>
+              <div class="question-block">
+                 <p class="question-text">1. Which verb do you use with 'basketball'?</p>
+                 <div class="options">
+                     <button onclick="checkAnswer(this)" data-correct="true">A. Play</button>
+                     <button onclick="checkAnswer(this)">B. Go</button>
+                     <button onclick="checkAnswer(this)">C. Do</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+              <div class="question-block">
+                 <p class="question-text">2. Which verb do you use with 'swimming'?</p>
+                  <div class="options">
+                     <button onclick="checkAnswer(this)">A. Play</button>
+                     <button onclick="checkAnswer(this)" data-correct="true">B. Go</button>
+                     <button onclick="checkAnswer(this)">C. Do</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+              <div class="question-block">
+                 <p class="question-text">3. Which verb do you use with 'karate'?</p>
+                  <div class="options">
+                     <button onclick="checkAnswer(this)">A. Play</button>
+                     <button onclick="checkAnswer(this)">B. Go</button>
+                     <button onclick="checkAnswer(this)" data-correct="true">C. Do</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+               <div class="question-block">
+                 <p class="question-text">4. Which sport uses the verb 'PLAY'?</p>
+                  <div class="options">
+                     <button onclick="checkAnswer(this)">A. Hiking</button>
+                     <button onclick="checkAnswer(this)" data-correct="true">B. Tennis</button>
+                     <button onclick="checkAnswer(this)">C. Yoga</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+              <div class="question-block">
+                 <p class="question-text">5. Which sport uses the verb 'GO'?</p>
+                   <div class="options">
+                     <button onclick="checkAnswer(this)" data-correct="true">B. Cycling</button>
+                     <button onclick="checkAnswer(this)">A. Baseball</button>
+                     <button onclick="checkAnswer(this)">C. Archery</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+              <div class="question-block">
+                 <p class="question-text">6. Which sport uses the verb 'DO'?</p>
+                   <div class="options">
+                     <button onclick="checkAnswer(this)">A. Volleyball</button>
+                     <button onclick="checkAnswer(this)">B. Sailing</button>
+                     <button onclick="checkAnswer(this)" data-correct="true">C. Judo</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+         </div>
+
+
+    </div>
+
+    <script>
+        const sportsData = [
+            { name: "tennis", correctVerb: "PLAY" },
+            { name: "soccer", correctVerb: "PLAY" },
+            { name: "volleyball", correctVerb: "PLAY" },
+            { name: "basketball", correctVerb: "PLAY" },
+            { name: "baseball", correctVerb: "PLAY" },
+            { name: "ice hockey", correctVerb: "PLAY" },
+            { name: "golf", correctVerb: "PLAY" },
+            { name: "handball", correctVerb: "PLAY" },
+            { name: "rugby", correctVerb: "PLAY" },
+             { name: "ping pong", correctVerb: "PLAY" },
+             { name: "football", correctVerb: "PLAY" }, // Assuming AmE football or soccer
+            { name: "swimming", correctVerb: "GO" },
+            { name: "running", correctVerb: "GO" },
+            { name: "hiking", correctVerb: "GO" },
+            { name: "sailing", correctVerb: "GO" },
+            { name: "skiing", correctVerb: "GO" },
+            { name: "snowboarding", correctVerb: "GO" },
+            { name: "ice skating", correctVerb: "GO" },
+            { name: "surfing", correctVerb: "GO" },
+            { name: "biking/cycling", correctVerb: "GO" },
+            { name: "mountain climbing", correctVerb: "GO" },
+            { name: "horseback riding", correctVerb: "GO" },
+             { name: "car racing", correctVerb: "GO" }, // Often 'go racing'
+            { name: "judo", correctVerb: "DO" },
+            { name: "karate", correctVerb: "DO" },
+            { name: "taekwondo", correctVerb: "DO" },
+            { name: "gymnastics", correctVerb: "DO" },
+            { name: "aerobics", correctVerb: "DO" },
+            { name: "yoga", correctVerb: "DO" },
+            { name: "archery", correctVerb: "DO" },
+            { name: "fencing", correctVerb: "DO" },
+            { name: "wrestling", correctVerb: "DO" },
+             { name: "boxing", correctVerb: "DO" }, // Sometimes 'go boxing' but 'do boxing' is standard exercise form
+        ];
+
+        function populateClassificationTable() {
+            const tbody = document.querySelector("#classify-form tbody");
+            tbody.innerHTML = ''; // Clear previous entries if any
+            sportsData.forEach((sport, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sport.name.charAt(0).toUpperCase() + sport.name.slice(1)}</td>
+                    <td><input type="radio" name="sport_${index}" value="PLAY" id="play_${index}"><label for="play_${index}">Play</label></td>
+                    <td><input type="radio" name="sport_${index}" value="GO" id="go_${index}"><label for="go_${index}">Go</label></td>
+                    <td><input type="radio" name="sport_${index}" value="DO" id="do_${index}"><label for="do_${index}">Do</label></td>
+                    <td class="feedback-cell" id="feedback_${index}"></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function checkClassification() {
+            sportsData.forEach((sport, index) => {
+                const radios = document.getElementsByName(`sport_${index}`);
+                const feedbackCell = document.getElementById(`feedback_${index}`);
+                let selectedValue = null;
+                radios.forEach(radio => {
+                    if (radio.checked) {
+                        selectedValue = radio.value;
+                    }
+                });
+
+                if (selectedValue) {
+                    if (selectedValue === sport.correctVerb) {
+                        feedbackCell.textContent = '✓';
+                        feedbackCell.className = 'feedback-cell correct-classify';
+                    } else {
+                        feedbackCell.textContent = '✗';
+                         feedbackCell.className = 'feedback-cell incorrect-classify';
+                    }
+                } else {
+                    feedbackCell.textContent = ''; // Clear feedback if nothing selected
+                    feedbackCell.className = 'feedback-cell';
+                }
+            });
+        }
+
+        // MCQ Checking Function (Same as previous pages)
+         function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.classList.remove('hidden');
+        }
+
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', populateClassificationTable);
+
+    </script>
+</body>
+</html>

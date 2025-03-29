@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Talking About Jobs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 950px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #0056b3; /* Blue */
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e7f3ff;
+            padding-bottom: 5px;
+        }
+        h1 { text-align: center; border-bottom: none; }
+        .vocab-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            background-color: #e7f3ff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+         .vocab-section h3 {
+            grid-column: 1 / -1; /* Span across all columns */
+            margin-bottom: 10px;
+            color: #004085;
+            border-bottom: none;
+        }
+        .vocab-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .vocab-list li {
+            background-color: #fff;
+            margin-bottom: 6px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-left: 3px solid #007bff;
+        }
+        .grammar-focus {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .grammar-focus p { margin: 5px 0; }
+        .grammar-focus strong { color: #856404; }
+
+        .question-block {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-block p.question-text {
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .question-block .scenario, .question-block .answer-info {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            border-left: 3px solid #0056b3;
+            padding-left: 10px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+         .options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #28a745; /* Green */
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Talking About Jobs</h1>
+
+        <h2>Vocabulary Corner</h2>
+        <div class="vocab-section">
+            <h3>Jobs / Occupations</h3>
+            <ul class="vocab-list">
+                <li>Teacher</li> <li>Accountant</li> <li>Nurse</li> <li>Firefighter</li>
+                <li>Doctor</li> <li>Police Officer</li> <li>Chef</li> <li>Waiter/Waitress</li>
+                <li>Salesperson</li> <li>Mechanic</li> <li>Pilot</li> <li>Lawyer</li>
+                <li>Security Guard</li> <li>Receptionist</li> <li>Flight Attendant</li>
+                <li>Cashier</li> <li>Plumber</li> <li>Carpenter</li> <li>Actor/Actress</li>
+                <li>Singer</li> <li>Musician</li> <li>Bellhop</li> <li>Tailor</li>
+                 <li>Air Traffic Controller</li><li>Taxi Driver</li>
+            </ul>
+
+            <h3>Workplaces</h3>
+            <ul class="vocab-list">
+                <li>School / University</li> <li>Hospital / Clinic</li> <li>Office</li>
+                <li>Restaurant / Café</li> <li>Store / Shop / Department Store</li>
+                <li>Fire Station</li> <li>Police Station</li> <li>Garage</li>
+                <li>Airport / Plane</li> <li>Theater</li> <li>Hotel</li>
+                <li>Courtroom</li> <li>Bank</li>
+            </ul>
+
+            <h3>Work Activities</h3>
+             <ul class="vocab-list">
+                <li>Teach students</li> <li>Help sick people</li> <li>Cook food</li>
+                <li>Serve passengers</li> <li>Fix cars / pipes</li> <li>Fight fire</li>
+                <li>Sell items</li> <li>Handle money</li> <li>Protect properties</li>
+                <li>Answer the phone</li> <li>Drive a taxi</li> <li>Fly planes</li>
+                <li>Design clothes</li> <li>Audit accounts</li> <li>Catch criminals</li>
+                <li>Defend people (legal)</li><li>Carry luggage</li><li>Repair clothes</li>
+            </ul>
+
+            <h3>Opinion Words</h3>
+            <ul class="vocab-list">
+                <li>Like / Love</li> <li>Not like / Hate / Dislike</li>
+                <li>Interesting / Exciting</li> <li>Boring</li>
+                <li>Good / Easy / Clean / Safe / Relaxing</li>
+                <li>Bad / Difficult / Hard / Dirty / Dangerous / Stressful / Tiring</li>
+            </ul>
+        </div>
+
+        <h2>Grammar Focus: Present Simple for Jobs</h2>
+        <div class="grammar-focus">
+            <p><strong>Questions:</strong></p>
+            <ul>
+                <li>What <strong>do</strong> you/they <strong>do</strong>? / What <strong>does</strong> he/she <strong>do</strong>? (Job)</li>
+                <li>Where <strong>do</strong> you/they <strong>work</strong>? / Where <strong>does</strong> he/she <strong>work</strong>? (Place)</li>
+                <li>What <strong>do</strong> you/they <strong>do exactly</strong>? / What <strong>does</strong> he/she <strong>do exactly</strong>? (Activity)</li>
+                <li>How <strong>do</strong> you/they <strong>like</strong> it? / How <strong>does</strong> he/she <strong>like</strong> it? (Opinion)</li>
+            </ul>
+            <p><strong>Answers:</strong></p>
+             <ul>
+                <li>I <strong>am</strong> a/an... / He/She <strong>is</strong> a/an... / We/They <strong>are</strong>...</li>
+                <li>I/We/They <strong>work</strong> in a/an... / He/She <strong>works</strong> in a/an...</li>
+                <li>I/We/They <strong>help</strong>... / He/She <strong>helps</strong>... (Verb + s/es/ies for he/she/it)</li>
+                 <li>I <strong>like</strong> it because it's... / He/She <strong>likes</strong> it because it's...</li>
+                 <li>My job <strong>is</strong>... / His/Her job <strong>is</strong>... / Their jobs <strong>are</strong>...</li>
+            </ul>
+        </div>
+
+        <h2>Practice Time!</h2>
+
+        <div class="question-block">
+            <p class="question-text">1. Choose the correct job: Someone who helps sick people in a hospital.</p>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. Teacher</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. Doctor / Nurse</button>
+                <button onclick="checkAnswer(this)">C. Chef</button>
+                <button onclick="checkAnswer(this)">D. Mechanic</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p class="question-text">2. Choose the correct workplace: A firefighter usually works in a...</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. Hospital</button>
+                <button onclick="checkAnswer(this)">B. School</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. Fire station</button>
+                <button onclick="checkAnswer(this)">D. Restaurant</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p class="question-text">3. Choose the correct activity: A chef...</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. fixes cars</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. cooks food</button>
+                <button onclick="checkAnswer(this)">C. teaches students</button>
+                <button onclick="checkAnswer(this)">D. flies planes</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+         <div class="question-block">
+            <p class="question-text">4. Choose the correct verb form: A pilot ______ planes.</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. fly</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. flies</button>
+                <button onclick="checkAnswer(this)">C. flying</button>
+                <button onclick="checkAnswer(this)">D. is fly</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p class="question-text">5. Choose the correct question for the answer:</p>
+            <div class="answer-info">Answer: She works in a hospital.</div>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. What does she do?</button>
+                <button onclick="checkAnswer(this)">B. How does she like her job?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. Where does she work?</button>
+                <button onclick="checkAnswer(this)">D. Who works in a hospital?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p class="question-text">6. Choose the correct question for the answer:</p>
+             <div class="answer-info">Answer: He is a teacher.</div>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. Where does he work?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. What does he do?</button>
+                <button onclick="checkAnswer(this)">C. How does he like it?</button>
+                <button onclick="checkAnswer(this)">D. What does he teach?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+         <div class="question-block">
+            <p class="question-text">7. Choose the correct question for the answer:</p>
+             <div class="answer-info">Answer: They help doctors and patients.</div>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. Where do they work?</button>
+                 <button onclick="checkAnswer(this)">B. What do they do?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. What do they do exactly?</button>
+                 <button onclick="checkAnswer(this)">D. How do they like their job?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+          <div class="question-block">
+            <p class="question-text">8. Choose the correct question for the answer:</p>
+             <div class="answer-info">Answer: I like it because it's interesting.</div>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. What do you do?</button>
+                 <button onclick="checkAnswer(this)">B. Where do you work?</button>
+                 <button onclick="checkAnswer(this)">C. What do you do exactly?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. How do you like it?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+          <div class="question-block">
+            <p class="question-text">9. Choose the correct opinion: A security guard's job can be...</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. easy and relaxing</button>
+                <button onclick="checkAnswer(this)">B. clean and safe</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. hard and sometimes dangerous</button>
+                <button onclick="checkAnswer(this)">D. exciting and fun</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <div class="question-block">
+             <p class="question-text">10. Choose the correct sentence structure:</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. He work in an office.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. He works in an office.</button>
+                 <button onclick="checkAnswer(this)">C. He are work in an office.</button>
+                 <button onclick="checkAnswer(this)">D. He working in an office.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true; // Disable all buttons in this block
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct'); // Highlight correct answer
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect'); // Highlight the incorrect selected answer
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+    </script>
+</body>
+</html>

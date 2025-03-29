@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Means of Transportation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #0056b3;
+            margin-bottom: 15px;
+        }
+        h1 { text-align: center; }
+        .vocab-list {
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .vocab-list li {
+            background-color: #e7f3ff;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .question-block {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-block p {
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .question-block .answer-info {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            border-left: 3px solid #0056b3;
+            padding-left: 10px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+        .options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #dc3545;
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .hidden { display: none; }
+        .matching-section { margin-top: 30px; }
+        .matching-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .matching-item span { font-weight: bold; flex-basis: 40%; }
+        .matching-options select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; flex-basis: 55%; }
+        .check-match-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .match-feedback { margin-left: 10px; font-weight: bold; }
+        .correct-match { color: green; }
+        .incorrect-match { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Means of Transportation</h1>
+
+        <h2>Vocabulary</h2>
+        <ul class="vocab-list">
+            <li>Van</li> <li>Bus</li> <li>Bicycle</li> <li>Motorcycle</li>
+            <li>Schoolbus</li> <li>Plane</li> <li>Taxi</li> <li>Helicopter</li>
+            <li>Car</li> <li>Train</li> <li>Coach</li> <li>Subway</li>
+            <li>Ship</li> <li>Tram</li> <li>Scooter/Moped</li>
+        </ul>
+        <p>Other related words: hike, walk, hitchhike, drive, ride, fly, sail, take</p>
+
+        <h2>Practice: Forming Questions</h2>
+        <p>Choose the correct question for the given answer.</p>
+
+        <div class="question-block">
+            <p>Question 1:</p>
+            <div class="answer-info">Answer: Peter has two brothers and one sister.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. What does Peter have?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. How many brothers and sisters does Peter have?</button>
+                <button onclick="checkAnswer(this)">C. How many brothers does Peter has?</button>
+                <button onclick="checkAnswer(this)">D. Does Peter have brothers?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p>Question 2:</p>
+            <div class="answer-info">Answer: I live in the suburbs.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. Who lives in the suburbs?</button>
+                <button onclick="checkAnswer(this)">B. What do you live?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. Where do you live?</button>
+                <button onclick="checkAnswer(this)">D. Do you live in the suburbs?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+         <div class="question-block">
+            <p>Question 3:</p>
+            <div class="answer-info">Answer: Angela goes to work with her husband.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. Where does Angela go?</button>
+                <button onclick="checkAnswer(this)">B. Does Angela go to work?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. Who does Angela go to work with?</button>
+                <button onclick="checkAnswer(this)">D. Who go to work with her husband?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p>Question 4:</p>
+            <div class="answer-info">Answer: Peter and Anna take the bus to school.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. Do Peter and Anna take the bus?</button>
+                <button onclick="checkAnswer(this)">B. Where do Peter and Anna take the bus?</button>
+                <button onclick="checkAnswer(this)">C. Who takes the bus to school?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">D. How do Peter and Anna go to school?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p>Question 5:</p>
+            <div class="answer-info">Answer: Steve listens to music in the evening.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)" data-correct="true">A. What does Steve do in the evening?</button>
+                <button onclick="checkAnswer(this)">B. When does Steve listen to music?</button>
+                <button onclick="checkAnswer(this)">C. Does Steve listen music?</button>
+                <button onclick="checkAnswer(this)">D. Who listen to music in the evening?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p>Question 6:</p>
+            <div class="answer-info">Answer: My mother gets up early at 6.00 every day.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. Who get up early?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. When does your mother get up?</button>
+                <button onclick="checkAnswer(this)">C. What does your mother get up?</button>
+                <button onclick="checkAnswer(this)">D. Does your mother gets up early?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p>Question 7:</p>
+            <div class="answer-info">Answer: Yes, Kayla eats dinner with her family on Sundays.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. When does Kayla eat dinner?</button>
+                <button onclick="checkAnswer(this)">B. What does Kayla eat on Sundays?</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. Does Kayla eat dinner with her family on Sundays?</button>
+                <button onclick="checkAnswer(this)">D. Who eats dinner with her family?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+             <p>Question 8:</p>
+             <div class="answer-info">Answer: No, they don't exercise on weekdays.</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. When do they exercise?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. Do they exercise on weekdays?</button>
+                 <button onclick="checkAnswer(this)">C. Do they exercise on weekends?</button>
+                 <button onclick="checkAnswer(this)">D. They exercise on weekdays?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <div class="question-block">
+              <p>Question 9:</p>
+              <div class="answer-info">Answer: Yes, my sister eats lunch at work.</div>
+              <div class="options">
+                  <button onclick="checkAnswer(this)">A. Where does your sister eat lunch?</button>
+                  <button onclick="checkAnswer(this)">B. Who eats lunch at work?</button>
+                  <button onclick="checkAnswer(this)" data-correct="true">C. Does your sister eat lunch at work?</button>
+                  <button onclick="checkAnswer(this)">D. Does your sister eats lunch?</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+
+          <div class="question-block">
+               <p>Question 10:</p>
+               <div class="answer-info">Answer: No, Tom and I don't walk to school.</div>
+               <div class="options">
+                   <button onclick="checkAnswer(this)">A. Don't you walk to school?</button>
+                   <button onclick="checkAnswer(this)">B. How do you go to school?</button>
+                   <button onclick="checkAnswer(this)" data-correct="true">C. Do you and Tom walk to school?</button>
+                   <button onclick="checkAnswer(this)">D. Who walks to school?</button>
+               </div>
+               <div class="feedback hidden"></div>
+           </div>
+
+           <div class="question-block">
+                <p>Question 11:</p>
+                <div class="answer-info">Answer: Peter goes to school by bus.</div>
+                <div class="options">
+                    <button onclick="checkAnswer(this)">A. Where does Peter go by bus?</button>
+                    <button onclick="checkAnswer(this)">B. Does Peter go to school by bus?</button>
+                    <button onclick="checkAnswer(this)" data-correct="true">C. How does Peter go to school?</button>
+                    <button onclick="checkAnswer(this)">D. Who goes to school by bus?</button>
+                </div>
+                <div class="feedback hidden"></div>
+            </div>
+
+            <div class="question-block">
+                 <p>Question 12:</p>
+                 <div class="answer-info">Answer: My sister walks to work every day.</div>
+                 <div class="options">
+                     <button onclick="checkAnswer(this)" data-correct="true">A. How does your sister go to work?</button>
+                     <button onclick="checkAnswer(this)">B. Does your sister walks to work?</button>
+                     <button onclick="checkAnswer(this)">C. When does your sister walk?</button>
+                     <button onclick="checkAnswer(this)">D. Who walks to work every day?</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+
+        <h2>Matching: Transport Verbs</h2>
+        <p>Match the way of travelling with the correct verb activity. (This uses a dropdown for selection).</p>
+        <div class="matching-section" id="matching-area">
+            <div class="matching-item">
+                <span>1. Go by plane</span>
+                <div class="matching-options">
+                    <select id="match1" data-correct="E">
+                        <option value="">Select activity...</option>
+                        <option value="A">A. walk</option>
+                        <option value="B">B. ride a bike / cycle</option>
+                        <option value="C">C. ride a motorbike</option>
+                        <option value="D">D. take a train</option>
+                        <option value="E">E. fly</option>
+                        <option value="F">F. sail</option>
+                        <option value="G">G. drive</option>
+                        <option value="H">H. take a taxi</option>
+                    </select>
+                    <span class="match-feedback"></span>
+                </div>
+            </div>
+             <div class="matching-item">
+                <span>2. Go by car</span>
+                 <div class="matching-options">
+                     <select id="match2" data-correct="G">
+                        <option value="">Select activity...</option>
+                        <option value="A">A. walk</option>
+                        <option value="B">B. ride a bike / cycle</option>
+                        <option value="C">C. ride a motorbike</option>
+                        <option value="D">D. take a train</option>
+                        <option value="E">E. fly</option>
+                        <option value="F">F. sail</option>
+                        <option value="G">G. drive</option>
+                        <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+             <div class="matching-item">
+                 <span>3. Go by ship</span>
+                 <div class="matching-options">
+                     <select id="match3" data-correct="F">
+                        <option value="">Select activity...</option>
+                        <option value="A">A. walk</option>
+                        <option value="B">B. ride a bike / cycle</option>
+                        <option value="C">C. ride a motorbike</option>
+                        <option value="D">D. take a train</option>
+                        <option value="E">E. fly</option>
+                        <option value="F">F. sail</option>
+                        <option value="G">G. drive</option>
+                        <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+              <div class="matching-item">
+                 <span>4. Go on foot</span>
+                 <div class="matching-options">
+                     <select id="match4" data-correct="A">
+                        <option value="">Select activity...</option>
+                        <option value="A">A. walk</option>
+                        <option value="B">B. ride a bike / cycle</option>
+                        <option value="C">C. ride a motorbike</option>
+                        <option value="D">D. take a train</option>
+                        <option value="E">E. fly</option>
+                        <option value="F">F. sail</option>
+                        <option value="G">G. drive</option>
+                        <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+             <div class="matching-item">
+                 <span>5. Go by taxi</span>
+                 <div class="matching-options">
+                     <select id="match5" data-correct="H">
+                         <option value="">Select activity...</option>
+                         <option value="A">A. walk</option>
+                         <option value="B">B. ride a bike / cycle</option>
+                         <option value="C">C. ride a motorbike</option>
+                         <option value="D">D. take a train</option>
+                         <option value="E">E. fly</option>
+                         <option value="F">F. sail</option>
+                         <option value="G">G. drive</option>
+                         <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+              <div class="matching-item">
+                 <span>6. Go by bicycle</span>
+                 <div class="matching-options">
+                     <select id="match6" data-correct="B">
+                         <option value="">Select activity...</option>
+                         <option value="A">A. walk</option>
+                         <option value="B">B. ride a bike / cycle</option>
+                         <option value="C">C. ride a motorbike</option>
+                         <option value="D">D. take a train</option>
+                         <option value="E">E. fly</option>
+                         <option value="F">F. sail</option>
+                         <option value="G">G. drive</option>
+                         <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+             <div class="matching-item">
+                 <span>7. Go by train</span>
+                 <div class="matching-options">
+                     <select id="match7" data-correct="D">
+                         <option value="">Select activity...</option>
+                         <option value="A">A. walk</option>
+                         <option value="B">B. ride a bike / cycle</option>
+                         <option value="C">C. ride a motorbike</option>
+                         <option value="D">D. take a train</option>
+                         <option value="E">E. fly</option>
+                         <option value="F">F. sail</option>
+                         <option value="G">G. drive</option>
+                         <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+             <div class="matching-item">
+                 <span>8. Go by motorcycle</span>
+                 <div class="matching-options">
+                     <select id="match8" data-correct="C">
+                         <option value="">Select activity...</option>
+                         <option value="A">A. walk</option>
+                         <option value="B">B. ride a bike / cycle</option>
+                         <option value="C">C. ride a motorbike</option>
+                         <option value="D">D. take a train</option>
+                         <option value="E">E. fly</option>
+                         <option value="F">F. sail</option>
+                         <option value="G">G. drive</option>
+                         <option value="H">H. take a taxi</option>
+                     </select>
+                     <span class="match-feedback"></span>
+                 </div>
+             </div>
+            <button class="check-match-btn" onclick="checkMatches()">Check Matches</button>
+        </div>
+
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function checkMatches() {
+            const matchingArea = document.getElementById('matching-area');
+            const selects = matchingArea.querySelectorAll('select');
+            selects.forEach(select => {
+                const feedbackSpan = select.parentNode.querySelector('.match-feedback');
+                const correctAnswer = select.getAttribute('data-correct');
+                if (select.value === correctAnswer) {
+                    feedbackSpan.textContent = '✓ Correct';
+                    feedbackSpan.className = 'match-feedback correct-match';
+                } else if (select.value !== "") {
+                     feedbackSpan.textContent = '✗ Incorrect';
+                     feedbackSpan.className = 'match-feedback incorrect-match';
+                 } else {
+                     feedbackSpan.textContent = '';
+                     feedbackSpan.className = 'match-feedback';
+                 }
+            });
+        }
+    </script>
+</body>
+</html>

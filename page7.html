@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Using There Is / There Are</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #fdfaf6; /* Very light beige */
+            color: #4f4a41; /* Brownish grey */
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #a0522d; /* Sienna Brown */
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        h1 { text-align: center; }
+        h2 { border-bottom: 2px solid #eaddcf; } /* Light beige-brown */
+
+        .intro {
+            background-color: #faf3e0; /* Light yellow-beige */
+            border-left: 5px solid #a0522d;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 5px 5px 0;
+        }
+        .intro p { margin: 5px 0; }
+
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background-color: #fffcf7;
+        }
+        .grammar-table th, .grammar-table td {
+            border: 1px solid #e8e0d5;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .grammar-table th {
+            background-color: #c68b59; /* Lighter Sienna */
+            color: white;
+            font-weight: bold;
+            width: 25%;
+        }
+        .grammar-table code {
+            background-color: #f5efe6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #7a4a24;
+            font-weight: bold;
+        }
+         .grammar-table ul { margin-top: 5px; padding-left: 20px; }
+         .grammar-table li { margin-bottom: 5px; }
+         .grammar-table strong { color: #8b4513; } /* Saddle Brown */
+
+        .vocab-recap {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+        }
+        .vocab-recap h3 { color: #666; margin-bottom: 8px;}
+        .vocab-recap p { color: #555; margin: 0; }
+
+
+        .question-block {
+            background-color: #fefefe;
+            border: 1px solid #eaeaea;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-block p.question-text {
+            font-weight: bold;
+            margin-top: 0;
+            color: #333;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #b8860b; /* DarkGoldenrod */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #8b6914; /* Darker Goldenrod */
+        }
+         .options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #28a745; /* Green */
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #dff0d8; /* Light Green */
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .feedback.incorrect {
+            background-color: #f2dede; /* Light Red */
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Using There Is / There Are</h1>
+
+        <div class="intro">
+            <h2>Talking About Existence</h2>
+            <p>We use <code>There is</code> and <code>There are</code> to say that something exists (or doesn't exist) in a place.</p>
+            <ul>
+                <li>Use <strong><code>There is</code></strong> for <strong>singular</strong> countable nouns and <strong>uncountable</strong> nouns.</li>
+                <li>Use <strong><code>There are</code></strong> for <strong>plural</strong> countable nouns.</li>
+            </ul>
+        </div>
+
+        <h2>Grammar Structure & Examples</h2>
+        <table class="grammar-table">
+            <tr>
+                <th>Form</th>
+                <th>Singular Countable / Uncountable</th>
+                <th>Plural Countable</th>
+            </tr>
+            <tr>
+                <th>Affirmative (+)</th>
+                <td>
+                    <code>There is</code> + <code>a/an</code> + singular noun.<br>
+                    <em>Example: <code>There is a stove</code> in the kitchen.</em><br><br>
+                    <code>There is</code> + <code>some</code> + uncountable noun.<br>
+                     <em>Example: <code>There is some milk</code> in the fridge.</em>
+                </td>
+                <td>
+                    <code>There are</code> + number/<code>some</code> + plural noun.<br>
+                     <em>Example: <code>There are two chairs</code>.</em><br>
+                     <em>Example: <code>There are some cushions</code>.</em>
+                </td>
+            </tr>
+            <tr>
+                 <th>Negative (-)</th>
+                 <td>
+                     <code>There isn't</code> + <code>a/an</code> + singular noun.<br>
+                     <em>Example: <code>There isn't a bed</code> in the kitchen.</em><br><br>
+                     <code>There isn't</code> + <code>any</code> + uncountable noun.<br>
+                     <em>Example: <code>There isn't any coffee</code> left.</em><br><br>
+                      (Also: <code>There is no</code> + singular/uncountable noun)<br>
+                      <em>Example: <code>There is no pillow</code>. <code>There is no water</code>.</em>
+                 </td>
+                 <td>
+                     <code>There aren't</code> + <code>any</code> + plural noun.<br>
+                      <em>Example: <code>There aren't any pillows</code> on the bed.</em><br><br>
+                      (Also: <code>There are no</code> + plural noun)<br>
+                      <em>Example: <code>There are no rugs</code> in the dining room.</em>
+                 </td>
+             </tr>
+             <tr>
+                 <th>Yes/No Question (?)</th>
+                  <td>
+                     <code>Is there</code> + <code>a/an</code> + singular noun?<br>
+                      <em>Example: <code>Is there a lamp</code> in the bedroom?</em><br>
+                      &rarr; Yes, there is. / No, there isn't.<br><br>
+                      <code>Is there</code> + <code>any</code> + uncountable noun?<br>
+                       <em>Example: <code>Is there any cheese</code>?</em><br>
+                       &rarr; Yes, there is. / No, there isn't.
+                 </td>
+                 <td>
+                      <code>Are there</code> + <code>any</code> + plural noun?<br>
+                      <em>Example: <code>Are there any chairs</code> in the living room?</em><br>
+                      &rarr; Yes, there are. / No, there aren't.
+                 </td>
+             </tr>
+        </table>
+
+        <div class="vocab-recap">
+            <h3>Vocabulary Recap</h3>
+            <p>Remember words for rooms (kitchen, bedroom, living room, bathroom) and items found there (sofa, bed, table, fridge, stove, lamp, curtains, etc.).</p>
+        </div>
+
+        <h2>Practice Time!</h2>
+
+        <h3>Activity 1: Choose IS or ARE</h3>
+        <div class="question-block">
+            <p class="question-text">1. There ______ a comfortable sofa in the living room.</p>
+            <div class="options">
+                <button onclick="checkAnswer(this)" data-correct="true">A. is</button>
+                <button onclick="checkAnswer(this)">B. are</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">2. There ______ many books on the bookcase.</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. is</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. are</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+         <div class="question-block">
+            <p class="question-text">3. ______ there any coffee?</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)" data-correct="true">A. Is</button>
+                <button onclick="checkAnswer(this)">B. Are</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">4. No, there ______ any chairs in the bedroom.</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. isn't</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. aren't</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <h3>Activity 2: Choose a / an / some / any</h3>
+         <div class="question-block">
+             <p class="question-text">5. Is there ______ armchair in the bedroom?</p>
+              <div class="options">
+                 <button onclick="checkAnswer(this)">A. a</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. an</button>
+                 <button onclick="checkAnswer(this)">C. some</button>
+                 <button onclick="checkAnswer(this)">D. any</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+             <p class="question-text">6. There are ______ beautiful curtains in the living room.</p>
+              <div class="options">
+                  <button onclick="checkAnswer(this)">A. a</button>
+                  <button onclick="checkAnswer(this)">B. an</button>
+                  <button onclick="checkAnswer(this)" data-correct="true">C. some</button>
+                  <button onclick="checkAnswer(this)">D. any</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+         <div class="question-block">
+              <p class="question-text">7. There isn't ______ freezer in the dining room.</p>
+              <div class="options">
+                  <button onclick="checkAnswer(this)" data-correct="true">A. a</button>
+                  <button onclick="checkAnswer(this)">B. an</button>
+                  <button onclick="checkAnswer(this)">C. some</button>
+                  <button onclick="checkAnswer(this)">D. any</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+          <div class="question-block">
+               <p class="question-text">8. Are there ______ pillows on the sofa?</p>
+               <div class="options">
+                   <button onclick="checkAnswer(this)">A. a</button>
+                   <button onclick="checkAnswer(this)">B. an</button>
+                   <button onclick="checkAnswer(this)">C. some</button>
+                   <button onclick="checkAnswer(this)" data-correct="true">D. any</button>
+               </div>
+               <div class="feedback hidden"></div>
+           </div>
+
+           <h3>Activity 3: Complete the Sentence/Question</h3>
+            <div class="question-block">
+                <p class="question-text">9. A: ______ cushions in the kitchen? B: No, there aren't.</p>
+                 <div class="options">
+                    <button onclick="checkAnswer(this)">A. Is there any</button>
+                    <button onclick="checkAnswer(this)" data-correct="true">B. Are there any</button>
+                    <button onclick="checkAnswer(this)">C. Is there some</button>
+                    <button onclick="checkAnswer(this)">D. Are there some</button>
+                </div>
+                <div class="feedback hidden"></div>
+            </div>
+            <div class="question-block">
+                 <p class="question-text">10. In my kitchen, ______ stove, ______ oven, and ______ fridge.</p>
+                 <div class="options">
+                    <button onclick="checkAnswer(this)">A. there are a / an / a</button>
+                    <button onclick="checkAnswer(this)" data-correct="true">B. there is a / an / a</button>
+                    <button onclick="checkAnswer(this)">C. there is some / an / a</button>
+                    <button onclick="checkAnswer(this)">D. there are some / some / some</button>
+                </div>
+                <div class="feedback hidden"></div>
+            </div>
+             <div class="question-block">
+                 <p class="question-text">11. A: Is there a rug in the bathroom? B: No, ______.</p>
+                  <div class="options">
+                     <button onclick="checkAnswer(this)">A. there is</button>
+                     <button onclick="checkAnswer(this)">B. there are</button>
+                     <button onclick="checkAnswer(this)" data-correct="true">C. there isn't</button>
+                     <button onclick="checkAnswer(this)">D. there aren't</button>
+                 </div>
+                 <div class="feedback hidden"></div>
+             </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.classList.remove('hidden'); // Show feedback
+        }
+    </script>
+</body>
+</html>

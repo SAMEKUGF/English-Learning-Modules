@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Furniture, Appliances & Rooms</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6; /* Light greenish-grey */
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #2a9d8f; /* Teal */
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        h1 { text-align: center; }
+        h2 { border-bottom: 2px solid #e0f2f1; }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            background-color: #e0f2f1; /* Light teal background */
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .vocab-grid h3 {
+            grid-column: 1 / -1; /* Span full width */
+            margin-bottom: 5px;
+            color: #00695c; /* Darker teal */
+            border-bottom: none;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+        .vocab-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .vocab-list li {
+            background-color: #ffffff;
+            margin-bottom: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border-left: 4px solid #2a9d8f; /* Teal border */
+            font-size: 0.95em;
+        }
+
+        .grammar-focus {
+            background-color: #fff8e1; /* Light yellow */
+            border: 1px solid #ffecb3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .grammar-focus h3 { color: #ef6c00; } /* Orange */
+        .grammar-focus p { margin: 5px 0; }
+        .grammar-focus strong { color: #c85a00; } /* Darker Orange */
+        .grammar-focus code { background-color: #eee; padding: 2px 5px; border-radius: 3px; }
+
+        .question-block, .classify-section {
+            background-color: #fdfdfe;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-block p.question-text, .classify-section h3 {
+            font-weight: bold;
+            margin-top: 0;
+            color: #333;
+        }
+        .question-block .answer-info {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            border-left: 3px solid #2a9d8f; /* Teal */
+            padding-left: 10px;
+        }
+
+        .options button, .classify-item button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #26a69a; /* Medium Teal */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #00796b; /* Darker Teal */
+        }
+         .options button:disabled, .classify-item button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #66bb6a; /* Green */
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #ef5350; /* Red */
+            color: white;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #e8f5e9; /* Light Green */
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .feedback.incorrect {
+            background-color: #ffebee; /* Light Red */
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        .hidden { display: none; }
+
+        .classify-item { display: flex; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;}
+        .classify-item span { flex-basis: 30%; font-weight: bold; }
+        .classify-item select { flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;}
+        .classify-feedback { font-weight: bold; margin-left: 5px; }
+        .correct-classify { color: green; }
+        .incorrect-classify { color: red; }
+        .check-classify-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Furniture, Appliances & Rooms</h1>
+
+        <h2>Vocabulary by Room/Type</h2>
+        <div class="vocab-grid">
+            <h3>Kitchen</h3>
+            <ul class="vocab-list">
+                <li>Stove</li> <li>Oven</li> <li>Fridge (Refrigerator)</li>
+                <li>Dish washer</li> <li>Micro wave oven</li> <li>Coffee machine</li>
+                <li>Freezer</li> <li>Toaster</li> <li>Blender/Mixer</li>
+                <li>Cabinets</li> <li>Sink</li> <li>Dishes</li>
+            </ul>
+
+            <h3>Bedroom</h3>
+            <ul class="vocab-list">
+                <li>Bed</li> <li>Dresser</li> <li>Pillow</li>
+                <li>Rug</li> <li>Lamp</li> <li>Closet</li>
+                <li>Curtains</li>
+            </ul>
+
+            <h3>Living Room</h3>
+            <ul class="vocab-list">
+                 <li>Sofa</li> <li>Armchair</li> <li>Coffee table</li>
+                 <li>Cushion</li> <li>Lamp</li> <li>Pillows</li>
+                 <li>Rug</li> <li>Curtains</li> <li>Bookcase</li>
+                 <li>Closet</li> <!-- Also listed here in doc -->
+            </ul>
+
+            <h3>Dining Room</h3>
+            <ul class="vocab-list">
+                <li>Table</li> <li>Chairs</li> <li>Vase</li>
+                <li>Cupboard</li>
+            </ul>
+
+             <h3>Bathroom</h3>
+             <ul class="vocab-list">
+                 <li>Toilet</li> <li>Sink</li> <li>Mirror</li>
+                 <li>Tub/Bathtub</li> <li>Shower (implied)</li>
+             </ul>
+
+             <h3>General House / Other</h3>
+             <ul class="vocab-list">
+                 <li>Clock</li> <li>Fan</li> <li>Air conditioner</li>
+                 <li>Hair dryer</li> <li>Washing machine</li>
+                 <li>Laundry room</li> <li>Garage</li> <li>Yard</li>
+                 <li>Stairs</li> <li>Lobby</li> <li>Hall</li> <li>Attic</li>
+                 <li>Balcony</li> <li>Elevator</li> <li>Terrace</li>
+                 <li>Apartment building</li><li>House</li><li>Villa</li>
+             </ul>
+        </div>
+
+        <h2>Quick Grammar: There is / There are</h2>
+        <div class="grammar-focus">
+            <h3>Describing Rooms</h3>
+            <p>We use <strong><code>There is</code></strong> for <strong>singular</strong> items (one thing).</p>
+            <p>Example: <code>There is a sofa</code> in the living room.</p>
+            <p>We use <strong><code>There are</code></strong> for <strong>plural</strong> items (more than one thing).</p>
+            <p>Example: <code>There are two chairs</code> in the dining room.</p>
+            <p><strong>Negative:</strong> <code>There isn't a...</code> / <code>There aren't any...</code></p>
+            <p><strong>Questions:</strong> <code>Is there a...?</code> / <code>Are there any...?</code></p>
+        </div>
+
+        <h2>Practice Activities</h2>
+
+        <h3>Activity 1: Where does it belong?</h3>
+        <div class="question-block">
+            <p class="question-text">1. Where do you usually find a stove?</p>
+            <div class="options">
+                <button onclick="checkAnswer(this)" data-correct="true">A. Kitchen</button>
+                <button onclick="checkAnswer(this)">B. Bedroom</button>
+                <button onclick="checkAnswer(this)">C. Living Room</button>
+                <button onclick="checkAnswer(this)">D. Bathroom</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <div class="question-block">
+            <p class="question-text">2. A sofa is typically found in the...</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. Kitchen</button>
+                 <button onclick="checkAnswer(this)">B. Dining Room</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. Living Room</button>
+                 <button onclick="checkAnswer(this)">D. Garage</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+         <div class="question-block">
+            <p class="question-text">3. Which appliance is used for washing clothes?</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. Dish washer</button>
+                 <button onclick="checkAnswer(this)">B. Oven</button>
+                 <button onclick="checkAnswer(this)">C. Toaster</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. Washing machine</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+        <h3>Activity 2: Choose There is / There are</h3>
+         <div class="question-block">
+            <p class="question-text">4. ______ a bed in the bedroom.</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)" data-correct="true">A. There is</button>
+                 <button onclick="checkAnswer(this)">B. There are</button>
+                 <button onclick="checkAnswer(this)">C. Is there</button>
+                 <button onclick="checkAnswer(this)">D. Are there</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <div class="question-block">
+            <p class="question-text">5. ______ some chairs in the kitchen.</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. There is</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. There are</button>
+                 <button onclick="checkAnswer(this)">C. Is there</button>
+                 <button onclick="checkAnswer(this)">D. Are there</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+          <div class="question-block">
+            <p class="question-text">6. ______ any pillows on the sofa?</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. There is</button>
+                 <button onclick="checkAnswer(this)">B. There are</button>
+                 <button onclick="checkAnswer(this)">C. Is there</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. Are there</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <div class="question-block">
+             <p class="question-text">7. No, ______ a bathtub in the kitchen.</p>
+              <div class="options">
+                  <button onclick="checkAnswer(this)" data-correct="true">A. there isn't</button>
+                  <button onclick="checkAnswer(this)">B. there aren't</button>
+                  <button onclick="checkAnswer(this)">C. there is</button>
+                  <button onclick="checkAnswer(this)">D. there are</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+
+
+        <h3>Activity 3: Classify Furniture & Appliances</h3>
+        <div class="classify-section">
+            <h3>Match the item to its primary location:</h3>
+            <div id="classification-area">
+                <div class="classify-item">
+                    <span>Refrigerator</span>
+                    <select data-correct="Kitchen">
+                        <option value="">Select Room...</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Bedroom">Bedroom</option>
+                        <option value="Living Room">Living Room</option>
+                        <option value="Dining Room">Dining Room</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="Laundry Room">Laundry Room</option>
+                    </select>
+                    <span class="classify-feedback"></span>
+                </div>
+                 <div class="classify-item">
+                    <span>Armchair</span>
+                    <select data-correct="Living Room">
+                        <option value="">Select Room...</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Bedroom">Bedroom</option>
+                        <option value="Living Room">Living Room</option>
+                        <option value="Dining Room">Dining Room</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="Laundry Room">Laundry Room</option>
+                     </select>
+                     <span class="classify-feedback"></span>
+                 </div>
+                 <div class="classify-item">
+                     <span>Toilet</span>
+                     <select data-correct="Bathroom">
+                         <option value="">Select Room...</option>
+                         <option value="Kitchen">Kitchen</option>
+                         <option value="Bedroom">Bedroom</option>
+                         <option value="Living Room">Living Room</option>
+                         <option value="Dining Room">Dining Room</option>
+                         <option value="Bathroom">Bathroom</option>
+                         <option value="Laundry Room">Laundry Room</option>
+                     </select>
+                     <span class="classify-feedback"></span>
+                 </div>
+                 <div class="classify-item">
+                     <span>Dresser</span>
+                     <select data-correct="Bedroom">
+                          <option value="">Select Room...</option>
+                          <option value="Kitchen">Kitchen</option>
+                          <option value="Bedroom">Bedroom</option>
+                          <option value="Living Room">Living Room</option>
+                          <option value="Dining Room">Dining Room</option>
+                          <option value="Bathroom">Bathroom</option>
+                          <option value="Laundry Room">Laundry Room</option>
+                     </select>
+                     <span class="classify-feedback"></span>
+                 </div>
+                  <div class="classify-item">
+                     <span>Washing Machine</span>
+                     <select data-correct="Laundry Room">
+                          <option value="">Select Room...</option>
+                          <option value="Kitchen">Kitchen</option>
+                          <option value="Bedroom">Bedroom</option>
+                          <option value="Living Room">Living Room</option>
+                          <option value="Dining Room">Dining Room</option>
+                          <option value="Bathroom">Bathroom</option>
+                          <option value="Laundry Room">Laundry Room</option>
+                     </select>
+                     <span class="classify-feedback"></span>
+                 </div>
+            </div>
+            <button class="check-classify-btn" onclick="checkClassification()">Check Classification</button>
+        </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function checkClassification() {
+            const classificationArea = document.getElementById('classification-area');
+            const items = classificationArea.querySelectorAll('.classify-item');
+            items.forEach(item => {
+                const select = item.querySelector('select');
+                const feedbackSpan = item.querySelector('.classify-feedback');
+                const correctAnswer = select.getAttribute('data-correct');
+
+                if (select.value === correctAnswer) {
+                    feedbackSpan.textContent = '✓ Correct';
+                    feedbackSpan.className = 'classify-feedback correct-classify';
+                } else if (select.value !== "") {
+                     feedbackSpan.textContent = '✗ Incorrect';
+                     feedbackSpan.className = 'classify-feedback incorrect-classify';
+                 } else {
+                     feedbackSpan.textContent = '';
+                     feedbackSpan.className = 'classify-feedback';
+                 }
+            });
+        }
+
+    </script>
+</body>
+</html>

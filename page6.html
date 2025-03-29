@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Using CAN & CAN'T for Ability</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f8; /* Light grey-blue background */
+            color: #333;
+        }
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #4a6fa5; /* Steel Blue */
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        h1 { text-align: center; }
+        h2 { border-bottom: 2px solid #a3bde1; } /* Lighter Steel Blue */
+
+        .intro {
+            background-color: #e6eef8; /* Very light blue */
+            border-left: 5px solid #4a6fa5;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 5px 5px 0;
+        }
+        .intro p { margin: 5px 0; }
+
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background-color: #f8fafd;
+        }
+        .grammar-table th, .grammar-table td {
+            border: 1px solid #c9d8ea;
+            padding: 12px;
+            text-align: left;
+        }
+        .grammar-table th {
+            background-color: #5c85d6; /* Medium Blue */
+            color: white;
+            font-weight: bold;
+            width: 20%;
+        }
+        .grammar-table td { vertical-align: top; }
+        .grammar-table code {
+            background-color: #ddeeff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #1c3d7a;
+            font-weight: bold;
+        }
+        .grammar-table ul { margin-top: 5px; padding-left: 20px; }
+        .grammar-table li { margin-bottom: 5px; }
+
+        .key-points {
+            background-color: #fffbea;
+            border: 1px solid #ffeccc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+        .key-points h3 { color: #d9a036; }
+        .key-points ul { padding-left: 20px; }
+
+        .question-block {
+            background-color: #fdfdfd;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-block p.question-text {
+            font-weight: bold;
+            margin-top: 0;
+            color: #333;
+        }
+         .question-block .context, .question-block .answer-info {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            border-left: 3px solid #4a6fa5;
+            padding-left: 10px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #5c85d6; /* Medium Blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #4a6fa5; /* Steel Blue */
+        }
+         .options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #28a745; /* Green */
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #d4edda; /* Light Green */
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da; /* Light Red */
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Using CAN & CAN'T for Ability</h1>
+
+        <div class="intro">
+            <h2>What Can You Do?</h2>
+            <p>We use the modal verb <strong>CAN</strong> to talk about ability – what someone knows how to do, or is able to do.</p>
+            <p>We use <strong>CAN'T</strong> (cannot) to talk about inability – what someone doesn't know how to do, or is unable to do.</p>
+        </div>
+
+        <h2>Grammar Structure</h2>
+        <table class="grammar-table">
+            <tr>
+                <th>Type</th>
+                <th>Structure & Examples</th>
+            </tr>
+            <tr>
+                <th>Affirmative (+)</th>
+                <td>
+                    Subject + <code>can</code> + base verb... <br>
+                    (Same form for all subjects: I, You, He, She, It, We, They)
+                    <ul>
+                        <li>I <code>can play</code> the violin.</li>
+                        <li>She <code>can sing</code> very well.</li>
+                        <li>They <code>can cook</code> delicious food.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                 <th>Negative (-)</th>
+                 <td>
+                    Subject + <code>can't</code> (cannot) + base verb... <br>
+                    (Same form for all subjects)
+                     <ul>
+                         <li>He <code>can't play</code> golf.</li>
+                         <li>We <code>can't speak</code> Chinese.</li>
+                         <li>It (the computer) <code>can't connect</code> to the internet.</li>
+                     </ul>
+                 </td>
+             </tr>
+            <tr>
+                 <th>Yes/No Questions (?)</th>
+                 <td>
+                    <code>Can</code> + Subject + base verb...? <br>
+                    (Same form for all subjects)
+                     <ul>
+                         <li><code>Can</code> you <code>play</code> golf? &rarr; Yes, I can. / No, I can't.</li>
+                         <li><code>Can</code> she <code>do</code> karate? &rarr; Yes, she can. / No, she can't.</li>
+                     </ul>
+                 </td>
+             </tr>
+             <tr>
+                 <th>Wh- Questions (?)</th>
+                 <td>
+                    Wh- word + <code>can</code> + Subject + base verb...? <br>
+                    (Asking about ability)
+                    <ul>
+                         <li>What <code>can</code> you <code>do</code>? &rarr; I can cook and draw.</li>
+                         <li>Where <code>can</code> they <code>play</code> soccer? &rarr; They can play in the park.</li>
+                    </ul>
+                     Wh- word + <code>can't</code> + Subject + base verb...? <br>
+                     (Asking about inability - less common, but possible)
+                      <ul>
+                          <li>What <code>can't</code> he <code>do</code>? &rarr; He can't cook or draw.</li>
+                      </ul>
+                 </td>
+             </tr>
+        </table>
+
+        <div class="key-points">
+            <h3>Key Points to Remember</h3>
+            <ul>
+                <li>Use the <strong>base form</strong> of the verb after <code>can</code> and <code>can't</code> (e.g., <code>play</code>, not <code>plays</code> or <code>playing</code>).</li>
+                <li><code>Can</code> and <code>Can't</code> are the <strong>same</strong> for all subjects (I, you, he, she, it, we, they). No "-s" for he/she/it!</li>
+                 <li><code>Can't</code> is the contraction of <code>cannot</code>.</li>
+            </ul>
+        </div>
+
+        <h2>Practice Time!</h2>
+
+        <h3>Activity 1: Choose CAN or CAN'T</h3>
+        <div class="question-block">
+            <p class="question-text">1. Birds ______ fly, but pigs ______.</p>
+            <div class="options">
+                <button onclick="checkAnswer(this)" data-correct="true">A. can / can't</button>
+                <button onclick="checkAnswer(this)">B. can't / can</button>
+                <button onclick="checkAnswer(this)">C. can / can</button>
+                <button onclick="checkAnswer(this)">D. can't / can't</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">2. He studied French for years, so he ______ speak it fluently.</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)" data-correct="true">A. can</button>
+                <button onclick="checkAnswer(this)">B. can't</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">3. I've never learned to swim, so I ______ swim.</p>
+             <div class="options">
+                <button onclick="checkAnswer(this)">A. can</button>
+                <button onclick="checkAnswer(this)" data-correct="true">B. can't</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <h3>Activity 2: Correct Sentence Structure</h3>
+         <div class="question-block">
+            <p class="question-text">4. Choose the grammatically correct sentence:</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. She cans play the piano.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. She can play the piano.</button>
+                 <button onclick="checkAnswer(this)">C. She can plays the piano.</button>
+                 <button onclick="checkAnswer(this)">D. She can playing the piano.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+             <p class="question-text">5. Choose the grammatically correct sentence:</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. They not can come.</button>
+                 <button onclick="checkAnswer(this)">B. They can no come.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. They can't come.</button>
+                 <button onclick="checkAnswer(this)">D. They cannot to come.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+             <p class="question-text">6. Choose the grammatically correct question:</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. Can you to swim?</button>
+                 <button onclick="checkAnswer(this)">B. Do you can swim?</button>
+                 <button onclick="checkAnswer(this)">C. You can swim?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. Can you swim?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+        <h3>Activity 3: Questions and Answers</h3>
+         <div class="question-block">
+            <p class="question-text">7. Choose the correct question for the answer:</p>
+            <div class="answer-info">Answer: Yes, I can ride a horse.</div>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. What can you ride?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. Can you ride a horse?</button>
+                 <button onclick="checkAnswer(this)">C. You can ride a horse?</button>
+                 <button onclick="checkAnswer(this)">D. Do you can ride a horse?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+            <p class="question-text">8. Choose the correct question for the answer:</p>
+             <div class="answer-info">Answer: He can play the guitar and sing.</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)" data-correct="true">A. What can he do?</button>
+                 <button onclick="checkAnswer(this)">B. Can he play the guitar?</button>
+                 <button onclick="checkAnswer(this)">C. Does he can sing?</button>
+                 <button onclick="checkAnswer(this)">D. He can do what?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+             <p class="question-text">9. Choose the correct negative sentence:</p>
+             <div class="context">Positive: We can speak Chinese.</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. We don't can speak Chinese.</button>
+                 <button onclick="checkAnswer(this)">B. We can not to speak Chinese.</button>
+                 <button onclick="checkAnswer(this)">C. We cannot speaks Chinese.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. We can't speak Chinese.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.classList.remove('hidden'); // Show feedback
+        }
+    </script>
+</body>
+</html>

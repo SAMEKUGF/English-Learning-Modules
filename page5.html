@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn: Adverbs of Frequency</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #eef5ff; /* Light blue background */
+            color: #334;
+        }
+        .container {
+            max-width: 950px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #005a9c; /* Dark Blue */
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        h1 { text-align: center; }
+        h2 { border-bottom: 2px solid #b3d7ff; } /* Lighter blue */
+
+        .intro, .grammar-rules {
+            background-color: #f0f7ff; /* Very light blue */
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 5px 5px 0;
+        }
+        .grammar-rules ul { padding-left: 20px; }
+        .grammar-rules li { margin-bottom: 10px; }
+        .grammar-rules code {
+            background-color: #ddeeff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #005a9c;
+            font-weight: bold;
+        }
+        .grammar-rules strong { color: #004085; } /* Darker blue */
+
+        .frequency-scale {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .frequency-scale li {
+            background-color: #e7f3ff;
+            border: 1px solid #cce0ff;
+            padding: 8px 15px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .frequency-scale li span:first-child { font-weight: bold; color: #005a9c;}
+        .frequency-scale li span:last-child { font-style: italic; color: #555; }
+
+        .question-block {
+            background-color: #fdfdfd;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question-block p.question-text {
+            font-weight: bold;
+            margin-top: 0;
+            color: #333;
+        }
+         .question-block .context, .question-block .original-sentence {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            border-left: 3px solid #007bff;
+            padding-left: 10px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #007bff; /* Blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #0056b3; /* Darker Blue */
+        }
+         .options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #28a745; /* Green */
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #d4edda; /* Light Green */
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da; /* Light Red */
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adverbs of Frequency</h1>
+
+        <div class="intro">
+            <h2>How Often?</h2>
+            <p>Adverbs of frequency tell us how often something happens. They answer the question "How often...?".</p>
+        </div>
+
+        <h2>Common Adverbs of Frequency</h2>
+        <ul class="frequency-scale">
+            <li><span>always</span> <span>(100%)</span></li>
+            <li><span>usually</span> <span>(~80-90%)</span></li>
+            <li><span>often</span> <span>(~60-70%)</span></li>
+            <li><span>sometimes</span> <span>(~40-50%)</span></li>
+            <li><span>seldom</span> <span>(~10-20%)</span></li>
+            <li><span>rarely / hardly ever</span> <span>(~5%)</span></li>
+            <li><span>never</span> <span>(0%)</span></li>
+        </ul>
+        <p><strong>Ever</strong> is mainly used in questions (<code>Do you ever...?</code>) and negative statements (<code>not ever</code> = <code>never</code>).</p>
+
+
+        <div class="grammar-rules">
+            <h2>Placement Rules</h2>
+            <ul>
+                <li><strong>Before the main verb:</strong><br>
+                    Example: I <code>always</code> <u>go</u> running. She <code>sometimes</code> <u>plays</u> soccer. They <code>never</code> <u>eat</u> popcorn.</li>
+                <li><strong>After the verb 'to be' (am, is, are, was, were):</strong><br>
+                    Example: He <u>is</u> <code>often</code> late. We <u>are</u> <code>usually</code> at home on Sundays.</li>
+                <li><strong>Between an auxiliary verb and the main verb:</strong><br>
+                    (Auxiliary verbs include: do, does, did, have, has, had, will, can, could, should, etc.)<br>
+                    Example: Tom and David <u>hardly ever</u> <u>do</u> Taekwondo. (Here 'do' is the main verb).<br>
+                    Example: She <u>doesn't</u> <code>often</code> <u>go</u> to the movies. I <u>have</u> <code>never</code> <u>seen</u> that film.</li>
+                <li><strong>Beginning of a sentence:</strong> <code>Sometimes</code> and <code>Usually</code> can sometimes start a sentence.<br>
+                    Example: <code>Sometimes</code> he plays soccer.</li>
+             </ul>
+            <h2>Asking Questions</h2>
+             <ul>
+                 <li><strong>How often...?</strong><br>
+                     Example: <code>How often</code> do you take a shower? / <code>How often</code> does Steve play soccer?</li>
+                 <li><strong>Do/Does ... ever...?</strong><br>
+                     Example: <code>Do</code> you <code>ever</code> play tennis? / <code>Does</code> your friend <code>ever</code> do boxing?</li>
+             </ul>
+             <h2>Negative Sentences</h2>
+             <ul>
+                  <li>Put <code>don't</code> or <code>doesn't</code> before the adverb and main verb.<br>
+                      Example: Sara always goes running -> Sara <code>doesn't</code> <code>always</code> <u>go</u> running.<br>
+                      Example: I sometimes go -> I <code>don't</code> <code>sometimes</code> <u>go</u>. (Or more naturally: I rarely go / I don't go often).<br>
+                      Example: We never go hiking -> We <code>don't</code> <code>ever</code> go hiking. (Or keep 'never': We never go hiking.)
+                 </li>
+             </ul>
+              <h2>Other Frequency Expressions</h2>
+              <ul>
+                  <li>You can also use expressions like:<br>
+                      <code>every day/week/month/year</code><br>
+                      <code>once a day/week/month/year</code><br>
+                      <code>twice a day/week/month/year</code><br>
+                      <code>three times a day/week/month/year</code><br>
+                       Example: I take a shower <code>every day</code>. She eats couscous <code>once a week</code>.
+                  </li>
+              </ul>
+        </div>
+
+
+        <h2>Practice Time!</h2>
+
+        <h3>Activity 1: Choose the Correct Adverb/Expression</h3>
+        <div class="question-block">
+            <p class="question-text">1. I drink coffee every morning, 7 days a week. I ______ drink coffee.</p>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. sometimes</button>
+                <button onclick="checkAnswer(this)">B. never</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. always</button>
+                <button onclick="checkAnswer(this)">D. rarely</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+         <div class="question-block">
+            <p class="question-text">2. She visits her grandmother about once a month. She ______ visits her.</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. often</button>
+                 <button onclick="checkAnswer(this)">B. always</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. rarely / seldom</button>
+                 <button onclick="checkAnswer(this)">D. never</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">3. We eat fish maybe 50% of the time. We ______ eat fish.</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. usually</button>
+                 <button onclick="checkAnswer(this)">B. never</button>
+                 <button onclick="checkAnswer(this)">C. always</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. sometimes</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <h3>Activity 2: Correct Placement</h3>
+        <div class="question-block">
+            <p class="question-text">4. Choose the sentence with the correct adverb placement:</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. Peter watches always TV.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. Peter always watches TV.</button>
+                 <button onclick="checkAnswer(this)">C. Always Peter watches TV.</button>
+                 <button onclick="checkAnswer(this)">D. Peter watches TV always.</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">5. Choose the sentence with the correct adverb placement:</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. He is often busy.</button>
+                 <button onclick="checkAnswer(this)">B. He often is busy.</button>
+                 <button onclick="checkAnswer(this)">C. Often he is busy.</button>
+                 <button onclick="checkAnswer(this)">D. He is busy often.</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+         <div class="question-block">
+            <p class="question-text">6. Choose the sentence with the correct adverb placement:</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. She doesn't watch usually TV.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. She doesn't usually watch TV.</button>
+                 <button onclick="checkAnswer(this)">C. She usually doesn't watch TV.</button>
+                 <button onclick="checkAnswer(this)">D. Usually she doesn't watch TV.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+        <h3>Activity 3: Form the Question/Negative</h3>
+         <div class="question-block">
+            <p class="question-text">7. Choose the correct question for the answer:</p>
+            <div class="context">Answer: Yes, I sometimes exercise in the morning.</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. How often you exercise?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. Do you ever exercise in the morning?</button>
+                 <button onclick="checkAnswer(this)">C. When you exercise?</button>
+                 <button onclick="checkAnswer(this)">D. You exercise sometimes?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+        <div class="question-block">
+            <p class="question-text">8. Choose the correct negative form:</p>
+            <div class="original-sentence">Original: Sara always goes running on Sundays.</div>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. Sara always doesn't go running on Sundays.</button>
+                 <button onclick="checkAnswer(this)">B. Sara never goes running on Sundays.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. Sara doesn't always go running on Sundays.</button>
+                 <button onclick="checkAnswer(this)">D. Sara doesn't go always running on Sundays.</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+         <div class="question-block">
+            <p class="question-text">9. Choose the correct question for the answer:</p>
+            <div class="context">Answer: She eats couscous once a week.</div>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. Does she eat couscous once a week?</button>
+                 <button onclick="checkAnswer(this)">B. What does she eat?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. How often does she eat couscous?</button>
+                 <button onclick="checkAnswer(this)">D. When she eats couscous?</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+
+        <h3>Activity 4: Unscramble the Sentences (Choose Correct Order)</h3>
+         <div class="question-block">
+            <p class="question-text">10. Choose the correctly ordered sentence:</p>
+             <div class="context">Words: movies / Peter / always / friends / horror / with / watches / his</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. Always Peter watches horror movies with his friends.</button>
+                 <button onclick="checkAnswer(this)">B. Peter watches always horror movies with his friends.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. Peter always watches horror movies with his friends.</button>
+                 <button onclick="checkAnswer(this)">D. Peter watches horror movies always with his friends.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+             <p class="question-text">11. Choose the correctly ordered sentence:</p>
+             <div class="context">Words: We / early / usually / movie / are / at / the / theater</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. We usually are early at the movie theater.</button>
+                 <button onclick="checkAnswer(this)">B. We are early usually at the movie theater.</button>
+                 <button onclick="checkAnswer(this)">C. Usually we are early at the movie theater.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. We are usually early at the movie theater.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+             <p class="question-text">12. Choose the correctly ordered sentence:</p>
+              <div class="context">Words: late / for / never / is / school / David</div>
+              <div class="options">
+                  <button onclick="checkAnswer(this)">A. David never is late for school.</button>
+                  <button onclick="checkAnswer(this)" data-correct="true">B. David is never late for school.</button>
+                  <button onclick="checkAnswer(this)">C. Never David is late for school.</button>
+                  <button onclick="checkAnswer(this)">D. David is late never for school.</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.classList.remove('hidden'); // Show feedback
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Quiz: Units 6 & 8</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9; /* Light Lavender */
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #6a5acd; /* Slate Blue */
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e6e6fa; /* Lavender */
+        }
+        h1 { text-align: center; border-bottom: none; margin-bottom: 30px;}
+        h2 { font-size: 1.4em; margin-top: 40px;}
+
+
+        .question-block {
+            background-color: #fdfdff;
+            border: 1px solid #e0e0eb;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .question-block p.question-text {
+            font-weight: bold;
+            margin-top: 0;
+            color: #483d8b; /* Dark Slate Blue */
+        }
+         .question-block .context, .question-block .answer-info, .question-block .original-sentence, .question-block .scrambled-words {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            border-left: 3px solid #7b68ee; /* Medium Slate Blue */
+            padding-left: 10px;
+            background-color: #f8f8ff;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        .reading-passage {
+            background-color: #f0f8ff; /* Alice Blue */
+            border: 1px dashed #b0e0e6; /* Powder Blue */
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            line-height: 1.7;
+        }
+
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #7b68ee; /* Medium Slate Blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover:not(:disabled) {
+            background-color: #6a5acd; /* Slate Blue */
+        }
+         .options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .options button.correct {
+            background-color: #3cb371; /* Medium Sea Green */
+            color: white;
+            font-weight: bold;
+        }
+        .options button.incorrect {
+            background-color: #ff6347; /* Tomato Red */
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            background-color: #e0f2f1; /* Light Teal */
+            color: #00695c;
+            border: 1px solid #b2dfdb;
+        }
+        .feedback.incorrect {
+            background-color: #ffebee; /* Light Red */
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Review Quiz (Units 6 & 8 Focus)</h1>
+
+        <!-- Section A: Family Members (Simplified without image) -->
+        <h2>A. Family Relationships</h2>
+        <div class="question-block">
+            <p class="question-text">1. Joseph Price and Mary Price are married. They have two children: Jessica Smith and Steven Price. Jessica is married to Alan Smith. Steven is married to Angela Price. Based on this, Joseph is Jessica's...</p>
+            <div class="options">
+                <button onclick="checkAnswer(this)">A. husband</button>
+                <button onclick="checkAnswer(this)">B. son</button>
+                <button onclick="checkAnswer(this)" data-correct="true">C. father</button>
+                <button onclick="checkAnswer(this)">D. brother</button>
+            </div>
+            <div class="feedback hidden"></div>
+        </div>
+        <div class="question-block">
+            <p class="question-text">2. Using the same family info (Joseph & Mary -> Jessica & Steven; Jessica married Alan; Steven married Angela), Alan is Joseph's...</p>
+            <div class="options">
+                 <button onclick="checkAnswer(this)">A. father</button>
+                 <button onclick="checkAnswer(this)">B. brother</button>
+                 <button onclick="checkAnswer(this)">C. nephew</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. son-in-law</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+            <p class="question-text">3. Mary is Steven's...</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)" data-correct="true">A. mother</button>
+                 <button onclick="checkAnswer(this)">B. sister</button>
+                 <button onclick="checkAnswer(this)">C. wife</button>
+                 <button onclick="checkAnswer(this)">D. aunt</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <!-- Section B: have/has/do/does etc. -->
+         <h2>B. Verb Forms: Have/Has/Do/Does</h2>
+          <div class="question-block">
+            <p class="question-text">4. My sister ______ only one son, but she ______ any daughters.</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. have / don't have</button>
+                 <button onclick="checkAnswer(this)">B. has / don't have</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. has / doesn't have</button>
+                 <button onclick="checkAnswer(this)">D. have / doesn't have</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+            <p class="question-text">5. How many uncles ______ you ______?</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. does / have</button>
+                 <button onclick="checkAnswer(this)">B. do / has</button>
+                 <button onclick="checkAnswer(this)">C. does / has</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. do / have</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+            <p class="question-text">6. ______ Carla and Anna have a sister-in-law?</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)" data-correct="true">A. Do</button>
+                 <button onclick="checkAnswer(this)">B. Does</button>
+                 <button onclick="checkAnswer(this)">C. Have</button>
+                 <button onclick="checkAnswer(this)">D. Has</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <!-- Section C: Unscramble Sentences -->
+         <h2>C. Sentence Order</h2>
+         <div class="question-block">
+            <p class="question-text">7. Choose the correct order:</p>
+            <div class="scrambled-words">brother / weekdays / ? / work / on / your / to / drive / Does /</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. Your brother does drive to work on weekdays?</button>
+                 <button onclick="checkAnswer(this)">B. Does drive your brother to work on weekdays?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. Does your brother drive to work on weekdays?</button>
+                 <button onclick="checkAnswer(this)">D. On weekdays does your brother drive to work?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+            <p class="question-text">8. Choose the correct order:</p>
+            <div class="scrambled-words">your / do / weekends / What / ? / do / on / parents /</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. What do weekends your parents do on?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. What do your parents do on weekends?</button>
+                 <button onclick="checkAnswer(this)">C. What your parents do do on weekends?</button>
+                 <button onclick="checkAnswer(this)">D. Do what your parents do on weekends?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+            <p class="question-text">9. Choose the correct order:</p>
+             <div class="scrambled-words">time / up / everyday / What / ? / get / you / do /</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. What time do get you up everyday?</button>
+                 <button onclick="checkAnswer(this)">B. Everyday what time do you get up?</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. What time do you get up everyday?</button>
+                 <button onclick="checkAnswer(this)">D. Do you get up what time everyday?</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+
+         <!-- Section D: Occupations -->
+         <h2>D. Occupations & Activities</h2>
+         <div class="question-block">
+            <p class="question-text">10. What does a pilot do?</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. Helps sick people</button>
+                 <button onclick="checkAnswer(this)">B. Defends people with legal problems</button>
+                 <button onclick="checkAnswer(this)">C. Teaches students</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">D. Gives instructions to pilots / Flies planes</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+             <p class="question-text">11. Someone who helps doctors and patients is a...</p>
+              <div class="options">
+                  <button onclick="checkAnswer(this)">A. Teacher</button>
+                  <button onclick="checkAnswer(this)">B. Lawyer</button>
+                  <button onclick="checkAnswer(this)" data-correct="true">C. Nurse</button>
+                  <button onclick="checkAnswer(this)">D. Chef</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+          <div class="question-block">
+              <p class="question-text">12. What does a cashier in a store do?</p>
+               <div class="options">
+                   <button onclick="checkAnswer(this)">A. Carries guests' luggage</button>
+                   <button onclick="checkAnswer(this)">B. Cooks food</button>
+                   <button onclick="checkAnswer(this)">C. Watches and protects properties</button>
+                   <button onclick="checkAnswer(this)" data-correct="true">D. Handles money</button>
+               </div>
+               <div class="feedback hidden"></div>
+           </div>
+
+         <!-- Section E: Sentence Correction -->
+         <h2>E. Correct the Mistakes</h2>
+         <div class="question-block">
+            <p class="question-text">13. Find the mistake and choose the correct sentence:</p>
+            <div class="original-sentence">Original: She not have sisters.</div>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. She not has sisters.</button>
+                 <button onclick="checkAnswer(this)">B. She don't have sisters.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">C. She doesn't have sisters.</button>
+                 <button onclick="checkAnswer(this)">D. She haven't sisters.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+          <div class="question-block">
+             <p class="question-text">14. Find the mistake and choose the correct sentence:</p>
+             <div class="original-sentence">Original: Peter go to school by bus every day.</div>
+              <div class="options">
+                  <button onclick="checkAnswer(this)" data-correct="true">A. Peter goes to school by bus every day.</button>
+                  <button onclick="checkAnswer(this)">B. Peter going to school by bus every day.</button>
+                  <button onclick="checkAnswer(this)">C. Peter goed to school by bus every day.</button>
+                  <button onclick="checkAnswer(this)">D. Peter do go to school by bus every day.</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+          <div class="question-block">
+              <p class="question-text">15. Find the mistake and choose the correct sentence:</p>
+              <div class="original-sentence">Original: My mather cooks dinner every evening.</div>
+               <div class="options">
+                   <button onclick="checkAnswer(this)">A. My mather cook dinner every evening.</button>
+                   <button onclick="checkAnswer(this)">B. My mother cook dinner every evening.</button>
+                   <button onclick="checkAnswer(this)" data-correct="true">C. My mother cooks dinner every evening.</button>
+                   <button onclick="checkAnswer(this)">D. My mother cooking dinner every evening.</button>
+               </div>
+               <div class="feedback hidden"></div>
+           </div>
+            <div class="question-block">
+               <p class="question-text">16. Find the mistake and choose the correct sentence:</p>
+               <div class="original-sentence">Original: How many cousins have you?</div>
+                <div class="options">
+                    <button onclick="checkAnswer(this)">A. How many cousins has you?</button>
+                    <button onclick="checkAnswer(this)">B. How many cousins do you has?</button>
+                    <button onclick="checkAnswer(this)" data-correct="true">C. How many cousins do you have?</button>
+                    <button onclick="checkAnswer(this)">D. How many cousins you have?</button>
+                </div>
+                <div class="feedback hidden"></div>
+            </div>
+
+
+        <!-- Section F: Reading Comprehension -->
+        <h2>F. Reading Comprehension</h2>
+        <div class="reading-passage">
+            <p>Sandy has a very busy schedule. She is an early bird. She gets up at 5:30 every morning. She starts work at 6:15 and she finishes at 11:00 A.M. She eats breakfast at work with her colleagues. Sandy goes to her Spanish class from 11:30 A.M. to 3:00 P.M on foot. She doesn't have time for lunch, but she eats after class. Then she starts her second job. She drives a taxi from 3:15 to 8:30 at night. After work, she goes home, studies again and cooks dinner for her family. Finally, she checks her email and then goes to bed and sleeps at midnight.</p>
+        </div>
+         <div class="question-block">
+            <p class="question-text">17. Which two statements about Sandy are true?</p>
+             <div class="options">
+                 <button onclick="checkAnswer(this)">A. She gets up late & she has breakfast at home.</button>
+                 <button onclick="checkAnswer(this)" data-correct="true">B. She is a taxi driver & she cooks for the family.</button>
+                 <button onclick="checkAnswer(this)">C. She gets up late & she is a taxi driver.</button>
+                 <button onclick="checkAnswer(this)">D. She has breakfast at home & she cooks for the family.</button>
+             </div>
+             <div class="feedback hidden"></div>
+         </div>
+         <div class="question-block">
+             <p class="question-text">18. When does Sandy study?</p>
+              <div class="options">
+                  <button onclick="checkAnswer(this)">A. All day</button>
+                  <button onclick="checkAnswer(this)">B. Only in the morning</button>
+                  <button onclick="checkAnswer(this)">C. Only from 11:30 A.M. to 3:00 P.M.</button>
+                  <button onclick="checkAnswer(this)" data-correct="true">D. From 11:30 A.M. to 3:00 P.M. AND at night</button>
+              </div>
+              <div class="feedback hidden"></div>
+          </div>
+           <div class="question-block">
+              <p class="question-text">19. Which two statements about Sandy are true?</p>
+               <div class="options">
+                   <button onclick="checkAnswer(this)">A. She eats lunch at work & she walks to her Spanish class.</button>
+                   <button onclick="checkAnswer(this)">B. She eats lunch at work & she has two jobs.</button>
+                   <button onclick="checkAnswer(this)" data-correct="true">C. She walks to her Spanish class & she has two jobs.</button>
+                   <button onclick="checkAnswer(this)">D. She walks to her Spanish class & she sleeps early.</button>
+               </div>
+               <div class="feedback hidden"></div>
+           </div>
+
+
+    </div>
+
+    <script>
+        function checkAnswer(button) {
+            const questionBlock = button.closest('.question-block');
+            const options = questionBlock.querySelectorAll('.options button');
+            const feedback = questionBlock.querySelector('.feedback');
+            const isCorrect = button.hasAttribute('data-correct');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === button && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Incorrect. The highlighted answer is correct.';
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.classList.remove('hidden'); // Show feedback
+        }
+    </script>
+</body>
+</html>
