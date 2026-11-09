@@ -1,0 +1,87 @@
+{
+  "title": "It's All Coming Back to Me Now",
+  "artist": "Céline Dion",
+  "level": "B1 → B2",
+  "audio": "song.mp3",
+  "intro_audio": [0.0, 7.0],
+  "listen_audio": [44.5, 78.5],
+  "review_audio": [44.5, 84.5],
+  "bed_audio": [98.0, 122.0],
+  "lines": [
+    {
+      "start": 47.6, "end": 52.2,
+      "en": "There were nights when the wind was so cold",
+      "fr": "Il y avait des nuits où le vent était si froid",
+      "keys": [["There were", 0]]
+    },
+    {
+      "start": 52.8, "end": 61.2,
+      "en": "That my body froze in bed if I just listened to it right outside the window",
+      "fr": "Que mon corps se figeait dans mon lit rien qu'à l'écouter, juste derrière la fenêtre",
+      "keys": [["froze", 1], ["right outside", 2]]
+    },
+    {
+      "start": 63.4, "end": 68.3,
+      "en": "There were days when the sun was so cruel",
+      "fr": "Il y avait des jours où le soleil était si cruel",
+      "keys": [["cruel", 3]]
+    },
+    {
+      "start": 68.8, "end": 77.6,
+      "en": "That all the tears turned to dust and I just knew my eyes were drying up forever",
+      "fr": "Que toutes les larmes se changeaient en poussière, et je savais que mes yeux s'asséchaient pour toujours",
+      "keys": [["turned to dust", 4], ["drying up", 5]]
+    }
+  ],
+  "vocab": [
+    {
+      "word": "There were", "ipa": "/ðeə wɜː/", "pos": "structure",
+      "fr": "Il y avait (pluriel)",
+      "example": "There were nights when the wind was so cold",
+      "tip": "There was + singulier  ·  There were + pluriel",
+      "tts": "assets/tts/v0.wav"
+    },
+    {
+      "word": "froze", "ipa": "/frəʊz/", "pos": "verbe irrégulier",
+      "fr": "geler · se figer",
+      "example": "My body froze in bed",
+      "tip": "freeze  →  froze  →  frozen",
+      "tts": "assets/tts/v1.wav"
+    },
+    {
+      "word": "right outside", "ipa": "/raɪt ˌaʊtˈsaɪd/", "pos": "expression",
+      "fr": "juste dehors · juste derrière",
+      "example": "Right outside the window",
+      "tip": "right = « juste, pile »  (right now = tout de suite)",
+      "tts": "assets/tts/v2.wav"
+    },
+    {
+      "word": "cruel", "ipa": "/ˈkruːəl/", "pos": "adjectif",
+      "fr": "cruel · impitoyable",
+      "example": "The sun was so cruel",
+      "tip": "2 syllabes en anglais :  CRU – el",
+      "tts": "assets/tts/v3.wav"
+    },
+    {
+      "word": "turned to dust", "ipa": "/tɜːnd tə dʌst/", "pos": "expression",
+      "fr": "se changer en poussière",
+      "example": "All the tears turned to dust",
+      "tip": "turn to / turn into = se transformer en",
+      "tts": "assets/tts/v4.wav"
+    },
+    {
+      "word": "drying up", "ipa": "/ˈdraɪɪŋ ʌp/", "pos": "phrasal verb",
+      "fr": "se tarir · s'assécher",
+      "example": "My eyes were drying up forever",
+      "tip": "to dry up : « up » = complètement, jusqu'au bout",
+      "tts": "assets/tts/v5.wav"
+    },
+    {
+      "word": "It's all coming back to me", "ipa": "/ɪts ɔːl ˈkʌmɪŋ bæk tə miː/", "pos": "idiome · titre",
+      "fr": "Tout me revient (en mémoire)",
+      "example": "It's all coming back to me now",
+      "tip": "come back to someone = revenir à l'esprit de quelqu'un",
+      "tts": "assets/tts/v6.wav"
+    }
+  ]
+}
