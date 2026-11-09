@@ -3,10 +3,9 @@
 Crée une vidéo 1080p animée pour apprendre l'anglais avec une chanson :
 
 1. **Intro animée** avec le plan de la leçon
-2. **Écoute & traduction** : karaoké mot à mot, traduction française phrase par phrase, mots avancés soulignés
-3. **Vocabulaire & répétition** : une carte animée par mot (API, nature, sens en français, exemple tiré de la chanson, astuce), prononcé **3 fois** avec une pause « Répétez à voix haute ! » après chaque écoute
-4. **Révision – texte à trous** : le même extrait, mots clés cachés puis révélés quand ils sont chantés
-5. **Outro** récapitulative
+2. **Pour chaque phrase** : la phrase originale chantée (karaoké mot à mot + traduction française), puis les cartes des mots avancés de cette phrase (prononcés ×3 avec une pause « Répétez ! »), puis la même phrase réécoutée
+3. **Révision – texte à trous** : le même extrait, mots clés cachés puis révélés quand ils sont chantés
+4. **Outro** récapitulative
 
 ## Utilisation
 

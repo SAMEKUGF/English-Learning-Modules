@@ -79,21 +79,41 @@ def tokens(s):
 
 
 # ---------------------------------------------------------------- timeline
+PRE, POST = 0.5, 0.6   # marge audio avant / après chaque phrase
+
+
 def build_timeline(L):
+    """Segments : (type, début, fin, info).
+    Pour chaque phrase : chant original → cartes des mots avancés (×3) → réécoute."""
     segs = []
     t = 0.0
+
+    def add(kind, dur, **info):
+        nonlocal t
+        segs.append((kind, t, t + dur, info))
+        t += dur
+
     a, b = L["intro_audio"]
-    segs.append(("intro", t, t + (b - a)))
-    t += b - a
-    a, b = L["listen_audio"]
-    segs.append(("listen", t, t + (b - a)))
-    t += b - a
-    vlen = SECTION_TITLE + CARD_LEN * len(L["vocab"])
-    segs.append(("vocab", t, t + vlen))
-    t += vlen
+    add("intro", b - a)
+    used = set()
+    n = len(L["lines"])
+    for i, ln in enumerate(L["lines"]):
+        a0, a1 = ln["start"] - PRE, ln["end"] + POST
+        add("phrase", a1 - a0, line=i, a0=a0, rep=0)
+        cards = []
+        for _, vid in ln.get("keys", []):
+            if vid not in used:
+                cards.append(vid)
+                used.add(vid)
+        if i == n - 1:  # les mots restants (ex. le titre) après la dernière phrase
+            cards += [k for k in range(len(L["vocab"])) if k not in used]
+            used.update(cards)
+        for vid in cards:
+            add("card", CARD_LEN, vid=vid, line=i)
+        if cards:
+            add("phrase", a1 - a0, line=i, a0=a0, rep=1)
     a, b = L["review_audio"]
-    segs.append(("review", t, t + (b - a)))
-    t += b - a
+    add("review", b - a, a0=a)
     return segs, t
 
 
@@ -155,31 +175,41 @@ def place(buf, clip, t):
 
 def build_audio(L, segs, total, song_path):
     buf = np.zeros((int(total * SR) + SR, 2), dtype=np.float32)
-    S = {s[0]: s for s in segs}
-    a, b = L["intro_audio"]
-    place(buf, fade(decode(song_path, a, b), 1.0, 1.2), S["intro"][1])
-    a, b = L["listen_audio"]
-    place(buf, fade(decode(song_path, a, b), 0.6, 0.9), S["listen"][1])
-    a, b = L["review_audio"]
-    place(buf, fade(decode(song_path, a, b), 0.6, 2.5), S["review"][1])
-    # fond musical doux sous le vocabulaire (filtré + atténué)
-    _, v0, v1 = S["vocab"]
+    song = decode(song_path)
+
+    def cut(a, b):
+        return song[int(a * SR):int(b * SR)].copy()
+
     a, b = L["bed_audio"]
     bed = subprocess.run(
         ["ffmpeg", "-v", "error", "-ss", str(a), "-t", str(b - a), "-i", song_path,
          "-af", "lowpass=f=900,volume=0.16", "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"],
         capture_output=True, check=True).stdout
     bed = np.frombuffer(bed, dtype=np.float32).reshape(-1, 2)
-    need = int((v1 - v0) * SR)
-    reps = int(np.ceil(need / len(bed)))
-    bedfull = np.concatenate([bed] * reps)[:need].copy()
-    place(buf, fade(bedfull, 1.0, 1.5), v0)
-    # prononciations ×3
-    for i, v in enumerate(L["vocab"]):
-        clip = decode(os.path.join(HERE, v["tts"])) * 1.1
-        c0 = v0 + SECTION_TITLE + i * CARD_LEN
-        for k in TTS_AT:
-            place(buf, clip, c0 + k)
+    tts = [decode(os.path.join(HERE, v["tts"])) * 1.1 for v in L["vocab"]]
+
+    bed_start = None
+    for k, (kind, s0, s1, info) in enumerate(segs):
+        if kind == "intro":
+            a, b = L["intro_audio"]
+            place(buf, fade(cut(a, b), 1.0, 1.2), s0)
+        elif kind == "phrase":
+            a0 = info["a0"]
+            place(buf, fade(cut(a0, a0 + s1 - s0), 0.35, 0.45), s0)
+        elif kind == "review":
+            a0 = info["a0"]
+            place(buf, fade(cut(a0, a0 + s1 - s0), 0.6, 2.5), s0)
+        elif kind == "card":
+            for at in TTS_AT:
+                place(buf, tts[info["vid"]], s0 + at)
+            if bed_start is None:
+                bed_start = s0
+            nxt = segs[k + 1][0] if k + 1 < len(segs) else None
+            if nxt != "card":  # fin d'un groupe de cartes : fond musical doux
+                need = int((s1 - bed_start) * SR)
+                reps = int(np.ceil(need / len(bed)))
+                place(buf, fade(np.concatenate([bed] * reps)[:need].copy(), 0.6, 0.6), bed_start)
+                bed_start = None
     np.clip(buf, -1, 1, out=buf)
     return buf[: int(total * SR)]
 
@@ -296,7 +326,9 @@ def draw_progress(d, t):
     d.rounded_rectangle((x0, y - 3, x1, y + 3), 3, fill=(255, 255, 255, 40))
     xp = x0 + (x1 - x0) * t / total
     d.rounded_rectangle((x0, y - 3, xp, y + 3), 3, fill=GOLD + (230,))
-    for name, a, b in G["segs"][1:]:
+    for name, a, b, info in G["segs"][1:]:
+        if not ((name == "phrase" and info["rep"] == 0) or name == "review"):
+            continue
         xm = x0 + (x1 - x0) * a / total
         d.ellipse((xm - 6, y - 6, xm + 6, y + 6), fill=(255, 255, 255, 200) if t >= a else (255, 255, 255, 70))
     d.ellipse((xp - 9, y - 9, xp + 9, y + 9), fill=(255, 255, 255, 255))
@@ -317,7 +349,7 @@ def layout_words(words, f, maxw, d):
     return rows, space
 
 
-def draw_lyric(img, t_song, ln, idx, n, appear, alpha, mode, d_fr_alpha=1.0):
+def draw_lyric(img, t_song, ln, idx, n, appear, alpha, mode, d_fr_alpha=1.0, tag=""):
     """mode = 'listen' (karaoké + FR)  |  'review' (texte à trous)"""
     lay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(lay)
@@ -328,7 +360,7 @@ def draw_lyric(img, t_song, ln, idx, n, appear, alpha, mode, d_fr_alpha=1.0):
     yoff = (1 - appear) * 50
     y0 = 430 - (len(rows) - 1) * lh / 2 + yoff
     # numéro de phrase
-    d.text((W / 2, y0 - 92), f"PHRASE {idx + 1} / {n}", font=font("Inter-SemiBold.otf", 22), fill=(255, 255, 255, int(130 * alpha)), anchor="mm")
+    d.text((W / 2, y0 - 92), f"PHRASE {idx + 1} / {n}{tag}", font=font("Inter-SemiBold.otf", 22), fill=(GOLD if tag else (255, 255, 255)) + (int((230 if tag else 130) * alpha),), anchor="mm")
     for r, (row, rw) in enumerate(rows):
         x = W / 2 - rw / 2
         y = y0 + r * lh
@@ -423,17 +455,17 @@ def draw_intro(img, t, L):
     a2 = ease_out((t - 1.8) / 0.8) * out
     d.text((W / 2, 520), "— " + L["artist"] + " —", font=font("Inter-MediumItalic.otf", 42), fill=LAV + (int(255 * a2),), anchor="mm")
     # plan de la leçon
-    steps = [("1", "Écoute & traduction", TEAL), ("2", "Vocabulaire & répétition", GOLD), ("3", "Révision : texte à trous", ROSE)]
+    steps = [("1", "Phrase chantée + traduction", TEAL), ("2", "Mots avancés : répétez ×3", GOLD), ("3", "Réécoute + texte à trous", ROSE)]
     for k, (num, lab, col) in enumerate(steps):
         p = ease_out((t - 2.6 - k * 0.35) / 0.6) * out
         if p <= 0:
             continue
-        cx = W / 2 + (k - 1) * 520
+        cx = W / 2 + (k - 1) * 570
         y = 690 + (1 - p) * 30
-        pill(d, (cx - 230, y - 44, cx + 230, y + 44), col + (int(36 * p),), col + (int(170 * p),))
-        d.ellipse((cx - 210, y - 26, cx - 158, y + 26), fill=col + (int(255 * p),))
-        d.text((cx - 184, y), num, font=font("Inter-Black.otf", 30), fill=(14, 14, 36, int(255 * p)), anchor="mm")
-        d.text((cx - 140, y), lab, font=font("Inter-SemiBold.otf", 30), fill=(255, 255, 255, int(255 * p)), anchor="lm")
+        pill(d, (cx - 265, y - 44, cx + 265, y + 44), col + (int(36 * p),), col + (int(170 * p),))
+        d.ellipse((cx - 245, y - 26, cx - 193, y + 26), fill=col + (int(255 * p),))
+        d.text((cx - 219, y), num, font=font("Inter-Black.otf", 30), fill=(14, 14, 36, int(255 * p)), anchor="mm")
+        d.text((cx - 175, y), lab, font=font("Inter-SemiBold.otf", 30), fill=(255, 255, 255, int(255 * p)), anchor="lm")
     img.alpha_composite(lay)
 
 
@@ -568,57 +600,61 @@ def render_frame(fidx):
     t = fidx / FPS
     energy = float(G["level"][min(fidx, len(G["level"]) - 1)])
     img = background(t, energy)
-    d = ImageDraw.Draw(img)
-    S = {s[0]: s for s in segs}
-    name = next((s[0] for s in segs if s[1] <= t < s[2]), segs[-1][0])
-    sect = {"intro": (None, TEAL), "listen": ("1 · Écoute & traduction", TEAL), "vocab": ("2 · Vocabulaire & répétition", GOLD), "review": ("3 · Révision : texte à trous", ROSE)}[name]
+    seg = next((s for s in segs if s[1] <= t < s[2]), segs[-1])
+    name, s0, s1, info = seg
+    lines = L["lines"]
+    n = len(lines)
+    if name == "intro":
+        sect = (None, TEAL)
+    elif name == "phrase":
+        sect = (f"Phrase {info['line'] + 1}/{n} · " + ("Écoute & traduction" if info["rep"] == 0 else "Réécoute"), TEAL)
+    elif name == "card":
+        sect = (f"Phrase {info['line'] + 1}/{n} · Vocabulaire ×3", GOLD)
+    else:
+        sect = ("Révision : texte à trous", ROSE)
     chrome = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     cd = ImageDraw.Draw(chrome)
     draw_chrome(chrome, cd, t, fidx, sect[0], sect[1], L)
-    draw_spectrum(cd, fidx, 0.55 if name == "vocab" else 1.0)
+    draw_spectrum(cd, fidx, 0.55 if name == "card" else 1.0)
     draw_progress(cd, t)
     img.alpha_composite(chrome)
 
-    lines = L["lines"]
+    loc = t - s0
     if name == "intro":
-        draw_intro(img, t - S["intro"][1], L)
-    elif name in ("listen", "review"):
-        seg0 = S[name][1]
-        a_off = L[name + "_audio"][0]
-        ts = t - seg0 + a_off  # temps dans la chanson
-        # ligne active : la dernière commencée (avec 0.35 s d'avance)
+        draw_intro(img, loc, L)
+    elif name == "phrase":
+        ln = lines[info["line"]]
+        ts = loc + info["a0"]  # temps dans la chanson
+        appear = ease_out(loc / 0.45)
+        alpha = appear * (1 - ease_in_out((loc - (s1 - s0 - 0.35)) / 0.35))
+        if info["rep"] == 0:
+            fr_a = ease_out((ts - ln["start"] - 0.3) / 0.6)
+            tag = ""
+        else:
+            fr_a = 1.0
+            tag = "  ·  RÉÉCOUTEZ ET CHANTEZ !"
+        draw_lyric(img, ts, ln, info["line"], n, appear, alpha, "listen", fr_a, tag)
+    elif name == "card":
+        vid = info["vid"]
+        draw_vocab_card(img, loc, vid, L["vocab"][vid], len(L["vocab"]))
+    else:  # review : texte à trous sur tout l'extrait
+        ts = loc + info["a0"]
         cur = None
         for i, ln in enumerate(lines):
             if ts >= ln["start"] - 0.5:
                 cur = i
         if cur is not None:
             ln = lines[cur]
-            nxt = lines[cur + 1]["start"] - 0.5 if cur + 1 < len(lines) else ln["end"] + 3.0
+            nxt = lines[cur + 1]["start"] - 0.5 if cur + 1 < n else ln["end"] + 3.0
             appear = ease_out((ts - (ln["start"] - 0.5)) / 0.5)
-            gone = ease_in_out((ts - (nxt - 0.35)) / 0.35)
-            alpha = appear * (1 - gone)
-            if name == "listen":
-                fr_a = ease_out((ts - ln["start"] - 0.3) / 0.6)
-            else:
-                fr_a = 0.75 * ease_out((ts - (ln["end"] - 0.6)) / 0.6)
+            alpha = appear * (1 - ease_in_out((ts - (nxt - 0.35)) / 0.35))
+            fr_a = 0.75 * ease_out((ts - (ln["end"] - 0.6)) / 0.6)
             if alpha > 0:
-                draw_lyric(img, ts, ln, cur, len(lines), appear, alpha, name, fr_a)
-        loc = t - seg0
-        if name == "listen":
-            section_title(img, loc, 2.7, "PARTIE 1", "Écoute & traduction", "Lisez l'anglais, comprenez avec le français", TEAL)
-        else:
-            section_title(img, loc, 2.7, "PARTIE 3", "Révision", "Devinez les mots cachés avant qu'ils soient chantés !", ROSE)
-            od = 5.5
-            if t > S["review"][2] - od:
-                draw_outro(img, t - (S["review"][2] - od), od, L)
-    elif name == "vocab":
-        loc = t - S["vocab"][1]
-        if loc < SECTION_TITLE:
-            section_title(img, loc, SECTION_TITLE, "PARTIE 2", "Vocabulaire", "Écoutez · Répétez 3 fois · Retenez", GOLD)
-        else:
-            i = int((loc - SECTION_TITLE) // CARD_LEN)
-            i = min(i, len(L["vocab"]) - 1)
-            draw_vocab_card(img, loc - SECTION_TITLE - i * CARD_LEN, i, L["vocab"][i], len(L["vocab"]))
+                draw_lyric(img, ts, ln, cur, n, appear, alpha, "review", fr_a)
+        section_title(img, loc, 2.7, "RÉVISION", "Texte à trous", "Devinez les mots cachés avant qu'ils soient chantés !", ROSE)
+        od = 5.5
+        if t > s1 - od:
+            draw_outro(img, t - (s1 - od), od, L)
     # fondu au noir initial / final
     fade_a = max(1 - ease_out(t / 0.8), ease_in_out((t - (G["total"] - 0.8)) / 0.8))
     if fade_a > 0:
