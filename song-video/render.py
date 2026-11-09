@@ -79,7 +79,9 @@ def tokens(s):
 
 
 # ---------------------------------------------------------------- timeline
-PRE, POST = 0.5, 0.6   # marge audio avant / après chaque phrase
+PRE, POST = 0.5, 0.6
+TEACH_PRE = 0.5          # silence avant la voix du professeur
+G_TEACH_DUR = {}          # durée de chaque clip professeur (remplie au démarrage)   # marge audio avant / après chaque phrase
 
 
 def build_timeline(L):
@@ -100,6 +102,8 @@ def build_timeline(L):
     for i, ln in enumerate(L["lines"]):
         a0, a1 = ln["start"] - PRE, ln["end"] + POST
         add("phrase", a1 - a0, line=i, a0=a0, rep=0)
+        if ln.get("teacher"):
+            add("teacher", G_TEACH_DUR[i] + TEACH_PRE + 0.9, line=i)
         cards = []
         for _, vid in ln.get("keys", []):
             if vid not in used:
@@ -199,6 +203,12 @@ def build_audio(L, segs, total, song_path):
         elif kind == "review":
             a0 = info["a0"]
             place(buf, fade(cut(a0, a0 + s1 - s0), 0.6, 2.5), s0)
+        elif kind == "teacher":
+            ln = L["lines"][info["line"]]
+            place(buf, decode(os.path.join(HERE, ln["teacher"])) * 1.15, s0 + TEACH_PRE)
+            need = int((s1 - s0) * SR)
+            reps = int(np.ceil(need / len(bed)))
+            place(buf, fade(np.concatenate([bed] * reps)[:need].copy(), 0.4, 0.4) * 0.8, s0)
         elif kind == "card":
             for at in TTS_AT:
                 place(buf, tts[info["vid"]], s0 + at)
@@ -595,6 +605,63 @@ def draw_outro(img, local, dur, L):
     img.alpha_composite(lay)
 
 
+def load_teacher_durations(L):
+    for i, ln in enumerate(L["lines"]):
+        if ln.get("teacher"):
+            out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
+                                  os.path.join(HERE, ln["teacher"])], capture_output=True, text=True, check=True).stdout
+            G_TEACH_DUR[i] = float(out.strip())
+
+
+def draw_teacher(img, local, dur, ln, idx, n):
+    """Le professeur lit la traduction : phrase anglaise rappelée en haut, français mis en avant."""
+    a = window(local, 0, dur, 0.45, 0.4)
+    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(lay)
+    speaking = TEACH_PRE <= local < TEACH_PRE + G_TEACH_DUR.get(idx, 0)
+    # badge professeur
+    cx, cy = W / 2, 250
+    r = 54
+    if speaking:
+        for k in range(3):
+            ph = ((local * 0.9) + k / 3) % 1
+            rr = r + ph * 70
+            d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), outline=ROSE + (int(150 * (1 - ph) * a),), width=3)
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=ROSE + (int(235 * a),))
+    # tête + épaules stylisées
+    d.ellipse((cx - 17, cy - 32, cx + 17, cy + 2), fill=(20, 16, 40, int(255 * a)))
+    d.chord((cx - 32, cy + 6, cx + 32, cy + 62), 180, 360, fill=(20, 16, 40, int(255 * a)))
+    d.text((cx, cy + r + 34), "LE PROFESSEUR TRADUIT", font=font("Inter-Bold.otf", 24), fill=ROSE + (int(240 * a),), anchor="mm")
+    # rappel de la phrase anglaise
+    fe = font("InterDisplay-SemiBold.otf", 40)
+    rows, _ = layout_words(ln["en"].split(), fe, 1500, d)
+    y = 400
+    for row, rw in rows:
+        d.text((W / 2, y), " ".join(w for _, w, _ in row), font=fe, fill=(255, 255, 255, int(150 * a)), anchor="mm")
+        y += 54
+    # traduction française, mot à mot pendant que le professeur parle
+    ff = font("InterDisplay-Bold.otf", 60)
+    words = ln["fr"].split()
+    frows, sp = layout_words(words, ff, 1560, d)
+    td = G_TEACH_DUR.get(idx, dur)
+    # « Phrase X. Ça veut dire : » occupe environ 1,7 s avant la traduction
+    t_fr0, t_fr1 = TEACH_PRE + 1.7, TEACH_PRE + td - 0.2
+    y = y + 70
+    d.rounded_rectangle((W / 2 - 40, y - 30, W / 2 + 40, y - 26), 2, fill=ROSE + (int(200 * a),))
+    y += 30
+    for row, rw in frows:
+        x = W / 2 - rw / 2
+        for (i, w, ww) in row:
+            wt = t_fr0 + (t_fr1 - t_fr0) * i / max(1, len(words))
+            p = clamp((local - wt) / 0.25)
+            col = LAV if p >= 1 else (255, 255, 255)
+            al = 0.35 + 0.65 * p
+            d.text((x, y - 6 * math.sin(math.pi * p) if 0 < p < 1 else y), w, font=ff, fill=col + (int(255 * a * al),), anchor="lm")
+            x += ww + sp
+        y += 80
+    img.alpha_composite(lay)
+
+
 def render_frame(fidx):
     L, segs = G["L"], G["segs"]
     t = fidx / FPS
@@ -608,6 +675,8 @@ def render_frame(fidx):
         sect = (None, TEAL)
     elif name == "phrase":
         sect = (f"Phrase {info['line'] + 1}/{n} · " + ("Écoute & traduction" if info["rep"] == 0 else "Réécoute"), TEAL)
+    elif name == "teacher":
+        sect = (f"Phrase {info['line'] + 1}/{n} · Le professeur traduit", ROSE)
     elif name == "card":
         sect = (f"Phrase {info['line'] + 1}/{n} · Vocabulaire ×3", GOLD)
     else:
@@ -615,7 +684,7 @@ def render_frame(fidx):
     chrome = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     cd = ImageDraw.Draw(chrome)
     draw_chrome(chrome, cd, t, fidx, sect[0], sect[1], L)
-    draw_spectrum(cd, fidx, 0.55 if name == "card" else 1.0)
+    draw_spectrum(cd, fidx, 0.55 if name in ("card", "teacher") else 1.0)
     draw_progress(cd, t)
     img.alpha_composite(chrome)
 
@@ -634,6 +703,8 @@ def render_frame(fidx):
             fr_a = 1.0
             tag = "  ·  RÉÉCOUTEZ ET CHANTEZ !"
         draw_lyric(img, ts, ln, info["line"], n, appear, alpha, "listen", fr_a, tag)
+    elif name == "teacher":
+        draw_teacher(img, loc, s1 - s0, lines[info["line"]], info["line"], n)
     elif name == "card":
         vid = info["vid"]
         draw_vocab_card(img, loc, vid, L["vocab"][vid], len(L["vocab"]))
@@ -664,6 +735,7 @@ def render_frame(fidx):
 
 def init_worker(state):
     G.update(state)
+    G_TEACH_DUR.update(state["teach"])
 
 
 def main():
@@ -677,11 +749,12 @@ def main():
 
     L = json.load(open(args.lesson, encoding="utf-8"))
     prepare_lines(L)
+    load_teacher_durations(L)
     segs, total = build_timeline(L)
     print(f"Durée : {total:.1f} s", flush=True)
     buf = build_audio(L, segs, total, args.audio)
     spec, level = spectrum(buf, total)
-    state = dict(L=L, segs=segs, total=total, spec=spec, level=level / max(1e-6, level.max()))
+    state = dict(teach=dict(G_TEACH_DUR), L=L, segs=segs, total=total, spec=spec, level=level / max(1e-6, level.max()))
     G.update(state)
 
     if args.preview:
