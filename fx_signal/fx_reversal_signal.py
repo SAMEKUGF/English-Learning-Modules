@@ -25,7 +25,7 @@ Usage
 Run it once per day AFTER the FX daily close (17:00 New York), Monday-Friday, then place the
 changes the table asks for.  Not financial advice.
 """
-import argparse, os, sys, json, time, urllib.request, urllib.parse
+import argparse, io, os, sys, json, time, urllib.request, urllib.parse
 from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
@@ -49,6 +49,32 @@ def load_csv(path):
     if missing:
         sys.exit(f"CSV is missing columns: {missing} (need {PAIRS})")
     return df[PAIRS]
+
+
+def load_avfiles(map_path):
+    """Read Alpha Vantage / Twelve Data daily results saved to files.  map_path = JSON {"EURUSD": "/path/to/file", ...}.
+    Each file is the tool's saved JSON ({"sample_data": ...} for Alpha Vantage, {"result": ...} for Twelve Data) or plain CSV text."""
+    m = json.load(open(map_path))
+    out = {}
+    for p in PAIRS:
+        if p not in m:
+            sys.exit(f"{map_path}: missing pair {p}")
+        txt = open(m[p]).read()
+        try:
+            js = json.loads(txt)
+            txt = js["sample_data"] if isinstance(js, dict) and "sample_data" in js else js["result"]
+        except (json.JSONDecodeError, KeyError, TypeError):
+            pass
+        lines = [l for l in txt.replace("\r", "").split("\n") if l.strip()]
+        header = lines[0].lower()
+        if "timestamp" not in header and "date" not in header:
+            sys.exit(f"{m[p]}: unexpected header '{lines[0]}'")
+        sep = ";" if ";" in lines[0] else ","                                  # Twelve Data uses ';', Alpha Vantage ','
+        body = [l for l in lines[1:] if l.count(sep) == lines[0].count(sep)]    # drop a possibly truncated last line
+        df = pd.read_csv(io.StringIO("\n".join([lines[0]] + body)), sep=sep)
+        df = df.rename(columns={df.columns[0]: "ts"})
+        out[p] = pd.Series(df["close"].values, index=pd.to_datetime(df["ts"])).sort_index()
+    return pd.DataFrame(out)
 
 
 def load_yahoo(days=400):
@@ -110,11 +136,15 @@ def fresh_weights(px, lookback, k):
     return w[score.notna().all(axis=1)], score
 
 
-def target_weights(px, lookback=21, hold=5, k=2):
-    """Blended target = average of the last `hold` daily signals (what the backtest holds)."""
+def target_weights(px, lookback=21, hold=5, k=2, start=None):
+    """Blended target = average of the last `hold` daily signals (what the backtest holds).
+    start: first day you trade.  Signals before it count as zero, so the book ramps up by 1/hold per day."""
     fw, score = fresh_weights(px, lookback, k)
-    tw = fw.reindex(px.index).rolling(hold, min_periods=hold).mean()
-    return tw, fw.reindex(px.index), score
+    fwr = fw.reindex(px.index)
+    if start is not None:
+        fwr.loc[fwr.index < pd.Timestamp(start)] = 0.0
+    tw = fwr.rolling(hold, min_periods=hold).mean()
+    return tw, fwr, score
 
 
 def currency_to_pair(w_ccy):
@@ -144,7 +174,7 @@ def fmt_stats(d):
 
 # ------------------------------------------------------------------ commands
 def cmd_signal(px, a):
-    tw, fw, score = target_weights(px, a.lookback, a.hold, a.k)
+    tw, fw, score = target_weights(px, a.lookback, a.hold, a.k, a.start)
     d = px.index[-1]
     if pd.isna(tw.loc[d]).any():
         sys.exit(f"Not enough history: need at least {a.lookback + a.hold} daily rows, have {len(px)}.")
@@ -171,21 +201,123 @@ def cmd_signal(px, a):
     rows = []
     for p in PAIRS:
         notional = pp[p] * a.equity
-        base_usd = last[p] if p.endswith("USD") else 1.0      # USD value of 1 unit of the pair's base currency
-        lots = notional / (100000 * base_usd)
+        lots = lots_for(pp[p], a.equity, last[p], p)
         side = "BUY" if pp[p] > 1e-9 else ("SELL" if pp[p] < -1e-9 else "flat")
         rows.append((p, side, pp[p] * 100 + 0.0, notional + 0.0, lots + 0.0))
-    print(pd.DataFrame(rows, columns=["pair", "side", "weight %", "notional USD", "lots (100k)"]).round(2).to_string(index=False))
+    print(pd.DataFrame(rows, columns=["pair", "side", "weight %", "notional USD", "lots (100k)"]).round(3).to_string(index=False))
     if len(tw.dropna()) > 1:
         prev = tw.dropna().iloc[-2]
         ch = (tw.loc[d] - prev) * 100
         print("\nCHANGE vs yesterday's target (currency weight %, + = buy the currency):")
         print(ch.round(1).to_string())
+    if a.email_json:
+        em = build_email(px, tw, fw, score, a)
+        json.dump(em, open(a.email_json, "w"), ensure_ascii=False, indent=1)
+        print(f"\nEmail written -> {a.email_json}  (subject: {em['subject']})")
     if a.log:
         row = pd.DataFrame([tw.loc[d]], index=[d]); row.index.name = "date"
         if os.path.exists(a.log):
             old = pd.read_csv(a.log, index_col=0, parse_dates=True); row = pd.concat([old[old.index != d], row]).sort_index()
         row.to_csv(a.log); print(f"\nLogged target weights for {d.date()} -> {a.log}")
+
+
+AR = {"BUY": "اشترِ", "SELL": "بِع"}
+
+
+LOT_STEP = 0.001      # set by --lot-step (0.01 = standard lots, 0.001 = micro/cent accounts)
+
+
+def lots_for(weight, equity, price, pair):
+    base_usd = price if pair.endswith("USD") else 1.0        # USD value of one unit of the base currency
+    raw = weight * equity / (100000.0 * base_usd)
+    return round(round(raw / LOT_STEP) * LOT_STEP + 0.0, 4)
+
+
+def fl(x):
+    return f"{abs(x):.3f}" if LOT_STEP < 0.01 else f"{abs(x):.2f}"
+
+
+def units(x):
+    return f"{abs(x) * 100000:,.0f}"
+
+
+def build_email(px, tw, fw, score, a):
+    d = px.index[-1]
+    idx = tw.dropna().index
+    prev = idx[idx < d][-1] if (idx < d).any() else None
+    pt = currency_to_pair(tw.loc[d])
+    py = currency_to_pair(tw.loc[prev]) if prev is not None else pt * 0.0
+    last = px.iloc[-1]
+    orders, targets = [], []
+    for p in PAIRS:
+        lt = lots_for(pt[p], a.equity, last[p], p)
+        ly = lots_for(py[p], a.equity, last[p], p)         # yesterday's target, sized at today's price (no price-drift noise)
+        diff = round(lt - ly + 0.0, 4)
+        nm = f"{p[:3]}/{p[3:]}"
+        side = "BUY" if diff > 0 else ("SELL" if diff < 0 else None)
+        pos = (f"شراء {fl(lt)} لوت (≈ {units(lt)} وحدة)" if lt > 0 else (f"بيع {fl(lt)} لوت (≈ {units(lt)} وحدة)" if lt < 0 else "لا مركز"))
+        targets.append(dict(pair=nm, target_lots=lt, text=pos, weight_pct=round(pt[p] * 100, 1)))
+        if side:
+            orders.append(dict(pair=nm, side=side, lots=abs(diff), text=f"{AR[side]} {fl(diff)} لوت {nm} (≈ {units(diff)} وحدة)", before=ly, after=lt))
+    small = [f"{p[:3]}/{p[3:]}" for p in PAIRS if abs(pt[p]) > 1e-9 and lots_for(pt[p], a.equity, last[p], p) == 0.0]
+    stale = bool(a.expect_date) and str(d.date()) != a.expect_date
+    first_day = prev is None or (a.start is not None and str(d.date()) == a.start)
+    rank = pd.DataFrame({"r": (np.exp(score.loc[d]) - 1) * 100}).sort_values("r")
+    rank_lines = [f"{c}: {v:+.2f}%" for c, v in rank["r"].items()]
+    subj = f"[FX] إشارة {d.date()} بعد إغلاق نيويورك — " + (f"{len(orders)} أوامر" if orders else "لا أوامر اليوم")
+    if stale:
+        subj = "[بيانات قديمة] " + subj
+    L = []
+    if stale:
+        L.append(f"⚠️ تحذير: آخر إغلاق في البيانات هو {d.date()} وليس {a.expect_date}. لا تنفّذ قبل التأكد من تحديث الأسعار.")
+    L.append(f"إغلاق نيويورك: {d.date()}  |  رصيد الحساب المفترض: {a.equity:,.0f}$  |  حساب تجريبي")
+    if first_day:
+        L.append("اليوم أول يوم تشغيل: المحفظة تبدأ فارغة وتُبنى تدريجياً بمعدل خُمس الإشارة كل يوم.")
+    L.append("")
+    L.append("ماذا تفعل الآن (نفّذ كل أمر كأمر سوقي):")
+    if orders:
+        for i, o in enumerate(orders, 1):
+            dirn = lambda x: ("شراء" if x > 0 else ("بيع" if x < 0 else "لا مركز"))
+            L.append(f"  {i}) {o['text']}   (المركز بعد التنفيذ: {dirn(o['after'])} {fl(o['after'])})")
+    else:
+        L.append("  لا توجد أوامر اليوم. لا تغيّر شيئاً.")
+    L.append("")
+    L.append("المراكز المطلوب أن تكون مفتوحة بعد التنفيذ:")
+    for t in targets:
+        L.append(f"  - {t['pair']}: {t['text']}")
+    if small:
+        L.append(f"  ملاحظة: الأحجام الأقل من {LOT_STEP} لوت تُقرَّب إلى صفر ({', '.join(small)}). رصيد أكبر يعطي دقة أفضل.")
+    L.append("")
+    L.append("ترتيب العملات (أداء 21 يوماً مقابل الدولار، من الأضعف إلى الأقوى):")
+    L.append("  " + "  |  ".join(rank_lines))
+    L.append("")
+    L.append("تذكير: لا يوجد وقف خسارة ولا هدف. الخروج يتم تدريجياً بتعديلات الأيام القادمة. إذا اختلف مركزك الفعلي عن الجدول أعلاه، عدّله ليطابقه.")
+    L.append("استراتيجية تجريبية غير مثبتة. لا تستخدم مالاً حقيقياً قبل 3–6 أشهر من المتابعة.")
+    text = "\n".join(L)
+    def tr(cells, tag="td"):
+        return "<tr>" + "".join(f"<{tag} style='padding:6px 10px;border:1px solid #ccc;text-align:right'>{c}</{tag}>" for c in cells) + "</tr>"
+    html = ["<div dir='rtl' style='font-family:Arial,Tahoma,sans-serif;font-size:15px;line-height:1.6;text-align:right'>"]
+    if stale:
+        html.append(f"<p style='color:#b00020'><b>⚠️ آخر إغلاق في البيانات هو {d.date()} وليس {a.expect_date}. لا تنفّذ قبل التأكد من تحديث الأسعار.</b></p>")
+    html.append(f"<p>إغلاق نيويورك: <b>{d.date()}</b> · رصيد الحساب المفترض: <b>{a.equity:,.0f}$</b> · حساب تجريبي</p>")
+    if first_day:
+        html.append("<p><b>اليوم أول يوم تشغيل:</b> المحفظة تبدأ فارغة وتُبنى تدريجياً بمعدل خُمس الإشارة كل يوم.</p>")
+    html.append("<h3>ماذا تفعل الآن (أوامر سوقية)</h3>")
+    if orders:
+        rows = [tr(["#", "الأمر", "المركز بعد التنفيذ"], "th")]
+        for i, o in enumerate(orders, 1):
+            aft = "شراء" if o["after"] > 0 else ("بيع" if o["after"] < 0 else "لا مركز")
+            rows.append(tr([i, f"<b>{o['text']}</b>", f"{aft} {fl(o['after'])}" if o["after"] else "لا مركز"]))
+        html.append("<table style='border-collapse:collapse'>" + "".join(rows) + "</table>")
+    else:
+        html.append("<p><b>لا توجد أوامر اليوم. لا تغيّر شيئاً.</b></p>")
+    html.append("<h3>المراكز المطلوب أن تكون مفتوحة بعد التنفيذ</h3>")
+    html.append("<table style='border-collapse:collapse'>" + tr(["الزوج", "المركز"], "th") + "".join(tr([t["pair"], t["text"]]) for t in targets) + "</table>")
+    if small:
+        html.append(f"<p style='color:#666'>الأحجام الأقل من {LOT_STEP} لوت تُقرَّب إلى صفر ({', '.join(small)}).</p>")
+    html.append("<h3>ترتيب العملات (21 يوماً مقابل الدولار، من الأضعف إلى الأقوى)</h3><p>" + " &nbsp;|&nbsp; ".join(rank_lines) + "</p>")
+    html.append("<p style='color:#555'>لا يوجد وقف خسارة ولا هدف؛ الخروج بتعديلات الأيام القادمة. إذا اختلف مركزك الفعلي عن الجدول فعدّله ليطابقه.<br>استراتيجية تجريبية غير مثبتة: لا مال حقيقي قبل 3–6 أشهر من المتابعة.</p></div>")
+    return dict(subject=subj, body_text=text, body_html="".join(html), orders=orders, targets=targets, stale=stale, last_date=str(d.date()))
 
 
 def cmd_backtest(px, a):
@@ -227,20 +359,29 @@ def cmd_report(px, a):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--source", choices=["csv", "yahoo", "twelvedata"], default="csv")
+    ap.add_argument("--source", choices=["csv", "yahoo", "twelvedata", "avfiles"], default="csv")
+    ap.add_argument("--av-map", help="JSON map {pair: file} of saved Alpha Vantage FX_DAILY results (--source avfiles)")
+    ap.add_argument("--start", help="first trading day (YYYY-MM-DD): the book ramps up from empty")
+    ap.add_argument("--expect-date", help="NY date of the close you expect to be the last bar; flags stale data")
+    ap.add_argument("--email-json", help="write the ready-to-send email (subject/text/html/orders) to this JSON file")
     ap.add_argument("--csv", default="sample_prices.csv")
     ap.add_argument("--lookback", type=int, default=21)
     ap.add_argument("--hold", type=int, default=5, help="days each signal is held (3 or 5 were tested)")
     ap.add_argument("--k", type=int, default=2, help="how many currencies on each side")
     ap.add_argument("--equity", type=float, default=10000.0, help="account equity in USD (for sizing)")
+    ap.add_argument("--lot-step", type=float, default=0.001, help="lot rounding step: 0.01 standard, 0.001 micro/cent")
     ap.add_argument("--asof", help="use data up to this date (YYYY-MM-DD)")
     ap.add_argument("--drop-last", action="store_true", help="ignore the most recent (maybe incomplete) bar")
     ap.add_argument("--log", help="CSV file to append the target weights to")
     ap.add_argument("--report", action="store_true", help="paper P&L from the log")
     ap.add_argument("--backtest", action="store_true", help="re-run the historical backtest on the data")
     a = ap.parse_args()
-    raw = {"csv": lambda: load_csv(a.csv), "yahoo": load_yahoo, "twelvedata": load_twelvedata}[a.source]()
+    global LOT_STEP
+    LOT_STEP = a.lot_step
+    raw = {"csv": lambda: load_csv(a.csv), "yahoo": load_yahoo, "twelvedata": load_twelvedata, "avfiles": lambda: load_avfiles(a.av_map)}[a.source]()
     px = clean(raw, a.asof, a.drop_last)
+    if a.expect_date:      # providers open the NEXT day's bar right after the 17:00 NY close: ignore it
+        px = px[px.index <= pd.Timestamp(a.expect_date)]
     if len(px) < a.lookback + a.hold + 5:
         sys.exit(f"Only {len(px)} usable daily rows; need more history.")
     if a.backtest:
